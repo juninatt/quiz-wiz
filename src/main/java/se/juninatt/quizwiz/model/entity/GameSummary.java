@@ -1,23 +1,22 @@
 package se.juninatt.quizwiz.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import java.util.Objects;
 
 /**
  * Summarizes a {@link Quiz} round.
  */
 @Entity
+@Table(name = "game_summary")
 public class GameSummary {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    int totalScore;
-    int timeUsedPercentage;
-    double completionPercentage;
-    LocalDate date;
-
+    protected int totalScore;
+    protected double timeUsedPercentage;
+    protected double completionPercentage;
+    protected String date;
 
     // Constructors
 
@@ -26,16 +25,14 @@ public class GameSummary {
     public GameSummary(int totalScore,
                        int timeUsedPercentage,
                        double completionPercentage,
-                       LocalDate date) {
+                       String date) {
         this.totalScore = totalScore;
         this.timeUsedPercentage = timeUsedPercentage;
         this.completionPercentage = completionPercentage;
         this.date = date;
     }
 
-
     // Getters and setters
-
 
     public long getId() {
         return id;
@@ -53,11 +50,11 @@ public class GameSummary {
         this.totalScore = totalScore;
     }
 
-    public int getTimeUsedPercentage() {
+    public double getTimeUsedPercentage() {
         return timeUsedPercentage;
     }
 
-    public void setTimeUsedPercentage(int timeUsedPercentage) {
+    public void setTimeUsedPercentage(double timeUsedPercentage) {
         this.timeUsedPercentage = timeUsedPercentage;
     }
 
@@ -69,15 +66,15 @@ public class GameSummary {
         this.completionPercentage = completionPercentage;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
-    // Hashcode and equals
+    // Hashcode, equals and toString
 
     @Override
     public boolean equals(Object o) {
@@ -90,5 +87,16 @@ public class GameSummary {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "GameSummary{" +
+                "id=" + id +
+                ", totalScore=" + totalScore +
+                ", timeUsedPercentage=" + timeUsedPercentage +
+                ", completionPercentage=" + completionPercentage +
+                ", date='" + date + '\'' +
+                '}';
     }
 }

@@ -1,7 +1,6 @@
 package se.juninatt.quizwiz.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.List;
 import java.util.Objects;
@@ -10,14 +9,20 @@ import java.util.Objects;
  * Class that represent a question in a {@link Quiz}.
  */
 @Entity
+@Table(name = "question")
 public class Question {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String questionText;
-    private List<String> answerOptions;
-    private int correctAnswerIndex;
-    int timeLimit;
-    private int points;
+    protected String questionText;
+    @ElementCollection
+    protected List<String> answerOptions;
+    protected int correctAnswerIndex;
+    protected int timeLimit;
+    protected int points;
+    @ManyToOne
+    @JoinColumn(name = "quiz_id")
+    protected Quiz quiz;
 
     // Constructors
 
@@ -85,7 +90,15 @@ public class Question {
         this.points = points;
     }
 
-    // Hashcode and equals
+    public Quiz getQuiz() {
+        return quiz;
+    }
+
+    public void setQuiz(Quiz quiz) {
+        this.quiz = quiz;
+    }
+
+    // Hashcode, equals and toString
 
     @Override
     public boolean equals(Object o) {
@@ -98,6 +111,19 @@ public class Question {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Question{" +
+                "id=" + id +
+                ", questionText='" + questionText + '\'' +
+                ", answerOptions=" + answerOptions +
+                ", correctAnswerIndex=" + correctAnswerIndex +
+                ", timeLimit=" + timeLimit +
+                ", points=" + points +
+                ", quiz=" + quiz +
+                '}';
     }
 }
 

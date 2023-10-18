@@ -1,7 +1,6 @@
 package se.juninatt.quizwiz.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.List;
 import java.util.Objects;
@@ -10,21 +9,23 @@ import java.util.Objects;
  * This class represents the actual quiz.
  */
 @Entity
+@Table(name = "quiz")
 public class Quiz {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String topic;
-    private List<Question> questions;
-
+    protected String topic;
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    protected List<Question> questions;
 
     // Constructors
+
     public Quiz() {}
 
     public Quiz(String topic, List<Question> questions) {
         this.topic = topic;
         this.questions = questions;
     }
-
 
     // Getters and setters
 
@@ -52,7 +53,8 @@ public class Quiz {
         this.questions = questions;
     }
 
-    // Hashcode and equals
+    // Hashcode, equals and toString
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -64,6 +66,15 @@ public class Quiz {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Quiz{" +
+                "id=" + id +
+                ", topic='" + topic + '\'' +
+                ", questions=" + questions +
+                '}';
     }
 }
 
