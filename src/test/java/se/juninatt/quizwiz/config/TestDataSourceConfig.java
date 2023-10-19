@@ -1,36 +1,37 @@
-package se.juninatt.quizwiz;
+package se.juninatt.quizwiz.config;
 
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
-import java.sql.SQLException;
 import java.util.Objects;
 
 /**
- * Configuration class responsible for setting up the data source connection to the database.
+ * Configuration class for setting up the test data source.
+ * This configuration is active when the "test" profile is active.
  */
 @Configuration
-public class DataSourceConfig {
+@Profile("test")
+public class TestDataSourceConfig {
 
     @Autowired
-    Environment env;
+    private Environment env;
 
     /**
-     * Configures and provides a DataSource bean for establishing a connection to the database.
-     * The DataSource bean is configured with the driver class name, URL, username, and password
-     * obtained from the application's environment properties.
+     * Configures and provides a DataSource bean for establishing a connection to the test database.
+     * The DataSource bean is configured with the information obtained from the application's test properties file.
      *
      * @return DataSource object configured with database connection details.
-     * @throws RuntimeException    if there is an error setting up the data source.
+     * @throws RuntimeException    If there is an error setting up the data source.
      */
     @Bean
-    public DataSource dataSource() throws DataAccessException, SQLException, IllegalStateException, BeanCreationException {
+    public DataSource dataSourceTests() throws DataAccessException, IllegalStateException, BeanCreationException {
         final DriverManagerDataSource dataSource = new DriverManagerDataSource();
         try {
             dataSource.setDriverClassName(Objects.requireNonNull(env.getProperty("driverClassName"),
@@ -42,7 +43,8 @@ public class DataSourceConfig {
             dataSource.setPassword(Objects.requireNonNull(env.getProperty("password"),
                     "Database password must be provided in the application properties."));
         } catch (DataAccessException | IllegalStateException | BeanCreationException exception) {
-            throw new RuntimeException("Failed to set up the data source: " + exception.getMessage(), exception);        }
+            throw new RuntimeException("Failed to set up the data source: " + exception.getMessage(), exception);
+        }
         return dataSource;
     }
 }

@@ -14,15 +14,15 @@ public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    protected String questionText;
+    private String questionText;
     @ElementCollection
-    protected List<String> answerOptions;
-    protected int correctAnswerIndex;
-    protected int timeLimit;
-    protected int points;
+    private List<String> answerOptions;
+    private int correctAnswerIndex;
+    private int timeLimit;
+    private int points;
     @ManyToOne
     @JoinColumn(name = "quiz_id")
-    protected Quiz quiz;
+    private Quiz quiz;
 
     // Constructors
 

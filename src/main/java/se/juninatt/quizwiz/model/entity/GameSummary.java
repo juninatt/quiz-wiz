@@ -13,10 +13,10 @@ public class GameSummary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    protected int totalScore;
-    protected double timeUsedPercentage;
-    protected double completionPercentage;
-    protected String date;
+    private int totalScore;
+    private double timeUsedPercentage;
+    private double completionPercentage;
+    private String date;
 
     // Constructors
 
