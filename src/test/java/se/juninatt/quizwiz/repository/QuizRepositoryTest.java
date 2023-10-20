@@ -70,7 +70,7 @@ public class QuizRepositoryTest {
 
         @Test
         @DisplayName("Returns empty optional when topic input is blank")
-        public void testFindByEmptyTopicIgnoreCase() {
+        public void testMethod_returns_emptyOptional_whenInputIsBlank() {
             // Act
             Optional<Quiz> foundQuiz = quizRepository.findByTopicIgnoreCase("");
 
