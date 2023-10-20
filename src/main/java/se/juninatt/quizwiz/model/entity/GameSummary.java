@@ -23,7 +23,7 @@ public class GameSummary {
     public GameSummary() {}
 
     public GameSummary(int totalScore,
-                       int timeUsedPercentage,
+                       double timeUsedPercentage,
                        double completionPercentage,
                        String date) {
         this.totalScore = totalScore;
