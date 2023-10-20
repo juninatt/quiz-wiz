@@ -8,10 +8,10 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
+import se.juninatt.quizwiz.TestUtl.TestObjectFactory;
 import se.juninatt.quizwiz.config.TestDataSourceConfig;
 import se.juninatt.quizwiz.model.entity.Quiz;
 
-import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,7 +34,7 @@ public class QuizRepositoryTest {
         public void testMethod_returns_quiz_withExpectedTopic() {
             // Arrange
             String topic = "Example Topic";
-            Quiz quiz = new Quiz(topic, new ArrayList<>());
+            Quiz quiz = TestObjectFactory.createQuizWithTopic(topic);
             quizRepository.save(quiz);
 
             // Act
@@ -69,7 +69,7 @@ public class QuizRepositoryTest {
         }
 
         @Test
-        @DisplayName("Test findByTopicIgnoreCase with empty topic")
+        @DisplayName("Returns empty optional when topic input is blank")
         public void testFindByEmptyTopicIgnoreCase() {
             // Act
             Optional<Quiz> foundQuiz = quizRepository.findByTopicIgnoreCase("");

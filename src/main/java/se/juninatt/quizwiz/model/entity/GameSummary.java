@@ -14,8 +14,8 @@ public class GameSummary {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private int totalScore;
-    private double timeUsedPercentage;
-    private double completionPercentage;
+    private int timeUsedPercentage;
+    private int completionPercentage;
     private String date;
 
     // Constructors
@@ -23,8 +23,8 @@ public class GameSummary {
     public GameSummary() {}
 
     public GameSummary(int totalScore,
-                       double timeUsedPercentage,
-                       double completionPercentage,
+                       int timeUsedPercentage,
+                       int completionPercentage,
                        String date) {
         this.totalScore = totalScore;
         this.timeUsedPercentage = timeUsedPercentage;
@@ -50,19 +50,19 @@ public class GameSummary {
         this.totalScore = totalScore;
     }
 
-    public double getTimeUsedPercentage() {
+    public int getTimeUsedPercentage() {
         return timeUsedPercentage;
     }
 
-    public void setTimeUsedPercentage(double timeUsedPercentage) {
+    public void setTimeUsedPercentage(int timeUsedPercentage) {
         this.timeUsedPercentage = timeUsedPercentage;
     }
 
-    public double getCompletionPercentage() {
+    public int getCompletionPercentage() {
         return completionPercentage;
     }
 
-    public void setCompletionPercentage(double completionPercentage) {
+    public void setCompletionPercentage(int completionPercentage) {
         this.completionPercentage = completionPercentage;
     }
 

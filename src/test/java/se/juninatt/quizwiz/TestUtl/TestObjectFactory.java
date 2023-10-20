@@ -1,11 +1,12 @@
 package se.juninatt.quizwiz.TestUtl;
 
 
+import se.juninatt.quizwiz.model.entity.AnswerOption;
 import se.juninatt.quizwiz.model.entity.GameSummary;
 import se.juninatt.quizwiz.model.entity.Question;
 import se.juninatt.quizwiz.model.entity.Quiz;
 
-import java.util.Arrays;
+import java.util.List;
 
 /**
  * Factory class for creating default test objects of various entity classes.
@@ -21,19 +22,19 @@ public class TestObjectFactory {
      * @return A default GameSummary object.
      */
     public static GameSummary createDefaultGameSummary() {
-        return new GameSummary(100, 75, 90.5, "2023-10-19");
+        return new GameSummary(100, 75, 90, "2023-10-19");
     }
 
-    public static GameSummary createGameSummaryWithTimeUsedPercentage(double timeUsedPercentage) {
-        return new GameSummary(100, timeUsedPercentage, 90.5, "2023-10-19");
+    public static GameSummary createGameSummaryWithTimeUsedPercentage(int timeUsedPercentage) {
+        return new GameSummary(100, timeUsedPercentage, 90, "2023-10-19");
     }
 
-    public static GameSummary createGameSummaryWithCompletionPercentage(double completionPercentage) {
-        return new GameSummary(100, 50.0, completionPercentage, "2023-10-19");
+    public static GameSummary createGameSummaryWithCompletionPercentage(int completionPercentage) {
+        return new GameSummary(100, 50, completionPercentage, "2023-10-19");
     }
 
     public static GameSummary createGameSummaryWithTotalScore(int totalScore) {
-        return new GameSummary(totalScore, 50.0, 90.5, "2023-10-19");
+        return new GameSummary(totalScore, 50, 90, "2023-10-19");
     }
 
     // QUESTION OBJECT CREATION
@@ -45,8 +46,7 @@ public class TestObjectFactory {
      */
     public static Question createDefaultQuestion() {
         return new Question("Sample Question?",
-                Arrays.asList("Option 1", "Option 2", "Option 3", "Option 4"),
-                1, 30, 10);
+                createDefaultAnswerOptions(), 30, 10);
     }
 
     // QUIZ OBJECT CREATION
@@ -62,7 +62,17 @@ public class TestObjectFactory {
 
     public static Quiz createQuizWithTopic(String topic) {
         Question defaultQuestion = createDefaultQuestion();
-        defaultQuestion.setQuiz(null); // To avoid circular reference
-        return new Quiz(topic, Arrays.asList(defaultQuestion));
+        Quiz quiz = new Quiz(topic, null);
+        //defaultQuestion.setQuiz(); // To avoid circular reference
+        return quiz;
+    }
+
+    public static List<AnswerOption> createDefaultAnswerOptions() {
+        return List.of(
+                new AnswerOption("Yes", false),
+                new AnswerOption("No", false),
+                new AnswerOption("Maybe", false),
+                new AnswerOption("I don´t know", true)
+        );
     }
 }

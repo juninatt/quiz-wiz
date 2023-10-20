@@ -51,8 +51,8 @@ public class GameSummaryRepositoryTest {
         @DisplayName("Returns correctly sorted list of game summaries")
         public void testMethod_returned_list_isCorrectlySorted() {
             // Arrange
-            GameSummary summary1 = TestObjectFactory.createGameSummaryWithTimeUsedPercentage(50.0);
-            GameSummary summary2 = TestObjectFactory.createGameSummaryWithTimeUsedPercentage(30.0);
+            GameSummary summary1 = TestObjectFactory.createGameSummaryWithTimeUsedPercentage(50);
+            GameSummary summary2 = TestObjectFactory.createGameSummaryWithTimeUsedPercentage(30);
             gameSummaryRepository.save(summary1);
             gameSummaryRepository.save(summary2);
 
@@ -102,8 +102,8 @@ public class GameSummaryRepositoryTest {
         @DisplayName("Returns correctly sorted list of game summaries")
         public void testMethod_returned_list_isCorrectlySorted() {
             // Arrange
-            GameSummary summary1 = TestObjectFactory.createGameSummaryWithCompletionPercentage(50.0);
-            GameSummary summary2 = TestObjectFactory.createGameSummaryWithCompletionPercentage(30.0);
+            GameSummary summary1 = TestObjectFactory.createGameSummaryWithCompletionPercentage(50);
+            GameSummary summary2 = TestObjectFactory.createGameSummaryWithCompletionPercentage(30);
             gameSummaryRepository.save(summary1);
             gameSummaryRepository.save(summary2);
 
@@ -157,6 +157,9 @@ public class GameSummaryRepositoryTest {
             GameSummary summary2 = TestObjectFactory.createGameSummaryWithTotalScore(200);
             gameSummaryRepository.save(summary1);
             gameSummaryRepository.save(summary2);
+            System.out.println(gameSummaryRepository.findById(summary1.getId()));
+            System.out.println(gameSummaryRepository.findAll().size());
+            System.out.println(gameSummaryRepository.findAll().stream().findFirst().get());
 
             // Act
             List<GameSummary> result = gameSummaryRepository.findAllByOrderByTotalScoreDesc();

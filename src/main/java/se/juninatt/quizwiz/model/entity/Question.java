@@ -15,11 +15,10 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String questionText;
-    @ElementCollection
-    private List<String> answerOptions;
-    private int correctAnswerIndex;
     private int timeLimit;
     private int points;
+    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private List<AnswerOption> answerOptions;
     @ManyToOne
     @JoinColumn(name = "quiz_id")
     private Quiz quiz;
@@ -29,13 +28,11 @@ public class Question {
     public Question() {}
 
     public Question(String questionText,
-                    List<String> answerOptions,
-                    int correctAnswerIndex,
+                    List<AnswerOption> answerOptions,
                     int timeLimit,
                     int points) {
         this.questionText = questionText;
         this.answerOptions = answerOptions;
-        this.correctAnswerIndex = correctAnswerIndex;
         this.timeLimit = timeLimit;
         this.points = points;
     }
@@ -58,20 +55,12 @@ public class Question {
         this.questionText = questionText;
     }
 
-    public List<String> getAnswerOptions() {
+    public List<AnswerOption> getAnswerOptions() {
         return answerOptions;
     }
 
-    public void setAnswerOptions(List<String> answerOptions) {
+    public void setAnswerOptions(List<AnswerOption> answerOptions) {
         this.answerOptions = answerOptions;
-    }
-
-    public int getCorrectAnswerIndex() {
-        return correctAnswerIndex;
-    }
-
-    public void setCorrectAnswerIndex(int correctAnswerIndex) {
-        this.correctAnswerIndex = correctAnswerIndex;
     }
 
     public int getTimeLimit() {
@@ -119,7 +108,6 @@ public class Question {
                 "id=" + id +
                 ", questionText='" + questionText + '\'' +
                 ", answerOptions=" + answerOptions +
-                ", correctAnswerIndex=" + correctAnswerIndex +
                 ", timeLimit=" + timeLimit +
                 ", points=" + points +
                 ", quiz=" + quiz +
