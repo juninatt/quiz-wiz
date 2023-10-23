@@ -1,6 +1,7 @@
 package se.juninatt.quizwiz.TestUtl;
 
 
+import se.juninatt.quizwiz.model.dto.QuizCreationDTO;
 import se.juninatt.quizwiz.model.entity.AnswerOption;
 import se.juninatt.quizwiz.model.entity.GameSummary;
 import se.juninatt.quizwiz.model.entity.Question;
@@ -74,5 +75,16 @@ public class TestObjectFactory {
                 new AnswerOption("Maybe", false),
                 new AnswerOption("I don´t know", true)
         );
+    }
+
+    // QUIZ DTO CREATION
+
+
+    public static QuizCreationDTO createQuizCreationDTOWithTopic(String topic) {
+        return new QuizCreationDTO(topic, null);
+    }
+
+    public static QuizCreationDTO createDefaultQuizCreationDTO() {
+        return createQuizCreationDTOWithTopic("Default topic");
     }
 }

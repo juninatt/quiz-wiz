@@ -4,6 +4,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import se.juninatt.quizwiz.exception.InvalidInputException;
 import se.juninatt.quizwiz.exception.QuizNotFoundException;
+import se.juninatt.quizwiz.mapper.QuizMapper;
+import se.juninatt.quizwiz.model.dto.QuizCreationDTO;
 import se.juninatt.quizwiz.model.entity.Quiz;
 import se.juninatt.quizwiz.repository.QuizRepository;
 
@@ -19,6 +21,10 @@ public class QuizService {
 
     public QuizService(QuizRepository quizRepository) {
         this.quizRepository = quizRepository;
+    }
+
+    public Quiz createQuiz(QuizCreationDTO quizContent) {
+        return quizRepository.save(QuizMapper.INSTANCE.quizCreationDTOToQuiz(quizContent));
     }
 
     /**

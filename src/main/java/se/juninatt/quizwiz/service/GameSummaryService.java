@@ -7,7 +7,7 @@ import se.juninatt.quizwiz.repository.GameSummaryRepository;
 import java.util.List;
 
 /**
- * Service class responsible for managing operations related to game summaries.
+ * Service class responsible for managing operations related to a {@link GameSummary}.
  * This service provides methods to retrieve leaderboards based on various criteria.
  */
 @Service
