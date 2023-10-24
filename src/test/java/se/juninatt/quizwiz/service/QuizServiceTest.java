@@ -4,13 +4,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 import se.juninatt.quizwiz.TestUtl.TestObjectFactory;
-import se.juninatt.quizwiz.config.TestDataSourceConfig;
+import se.juninatt.quizwiz.config.TestDatabaseImplementation;
 import se.juninatt.quizwiz.exception.InvalidInputException;
 import se.juninatt.quizwiz.exception.QuizNotFoundException;
 import se.juninatt.quizwiz.model.entity.Quiz;
@@ -19,13 +14,8 @@ import se.juninatt.quizwiz.repository.QuizRepository;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@TestPropertySource(locations = "classpath:application-test.properties")
-@ActiveProfiles("test")
-@Import(TestDataSourceConfig.class)
-public class QuizServiceTest {
-
+@DisplayName("Quiz Service: ")
+public class QuizServiceTest extends TestDatabaseImplementation {
     @Autowired
     private QuizService quizService;
     @Autowired
@@ -83,6 +73,5 @@ public class QuizServiceTest {
                     .isInstanceOf(QuizNotFoundException.class)
                     .hasMessage("Quiz with topic: '" + nonExistentTopic + "' could not be found.");
         }
-
     }
 }

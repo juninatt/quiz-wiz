@@ -4,13 +4,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 import se.juninatt.quizwiz.TestUtl.TestObjectFactory;
-import se.juninatt.quizwiz.config.TestDataSourceConfig;
+import se.juninatt.quizwiz.config.TestDatabaseImplementation;
 import se.juninatt.quizwiz.model.entity.GameSummary;
 import se.juninatt.quizwiz.repository.GameSummaryRepository;
 
@@ -18,17 +13,13 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@TestPropertySource(locations = "classpath:application-test.properties")
-@ActiveProfiles("test")
-@Import(TestDataSourceConfig.class)
-public class GameSummaryServiceTest {
-
+@DisplayName("GameSummary Service:")
+public class GameSummaryServiceTest extends TestDatabaseImplementation   {
     @Autowired
     GameSummaryService gameSummaryService;
     @Autowired
     GameSummaryRepository gameSummaryRepository;
+
 
     @Nested
     @DisplayName("GetLeaderBoardByTimePercentage() - Tests")

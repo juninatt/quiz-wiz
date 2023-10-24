@@ -4,26 +4,18 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ActiveProfiles;
 import se.juninatt.quizwiz.TestUtl.TestObjectFactory;
-import se.juninatt.quizwiz.config.TestDataSourceConfig;
+import se.juninatt.quizwiz.config.TestDatabaseImplementation;
 import se.juninatt.quizwiz.model.entity.Quiz;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@ActiveProfiles("test")
-@DisplayName("Quiz Repository:")
-@Import(TestDataSourceConfig.class)
-public class QuizRepositoryTest {
+@DisplayName("Quiz Repository:") public class QuizRepositoryTest extends TestDatabaseImplementation {
     @Autowired
     private QuizRepository quizRepository;
+
 
     @Nested
     @DisplayName("FindByTopicIgnoreCase(String) - Tests")
