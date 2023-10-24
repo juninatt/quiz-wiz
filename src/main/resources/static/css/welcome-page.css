@@ -1,0 +1,48 @@
+/* Menu specific to welcome page */
+
+/* === MENU STYLING === */
+
+#menu {
+    color: white;
+    background-color: #003366;  /* Dark blue background */
+    width: 200px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 15px;
+}
+
+#menu ul li {
+    margin-bottom: 15px;
+    list-style: none;
+}
+
+#menu ul li a {
+    display: block;
+    padding: 10px;
+    background-color: #006699;  /* Lighter blue for buttons */
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+/* === CONTENT STYLING === */
+
+/* Welcome box in the middle of the page */
+#welcome-box {
+    background-color: #fff;
+    width: 300px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Welcome box title */
+#welcome-box-title h2 {
+    font-size: 3em;
+    color: #0099cc;  /* Teal-colored title */
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    text-shadow: 3px 3px 3px #aaa;
+    text-align: center;
+}

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import se.juninatt.quizwiz.TestUtl.TestObjectFactory;
-import se.juninatt.quizwiz.config.TestDatabaseImplementation;
+import se.juninatt.quizwiz.config.implementation.TestDatabaseImplementation;
 import se.juninatt.quizwiz.model.entity.Quiz;
 
 import java.util.Optional;
