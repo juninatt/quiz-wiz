@@ -23,13 +23,18 @@ public class QuizController {
     @GetMapping("/quizwiz")
     public String showWelcomePage(Model model) {
         logger.info("Showing welcome page.");
-        model.addAttribute("message", "    Welcome to the Quiz Portal. Choose from various quizzes or create your own!");
+        model.addAttribute("message", "Welcome to the Quiz Portal. Choose from various quizzes or create your own!");
         return "welcome-page";
     }
 
-
+    /**
+     * Show the create-quiz page.
+     * @param model The model object to pass attributes to the view.
+     * @return The name of the Thymeleaf template to render.
+     */
     @GetMapping("/create-quiz")
     public String showCreateQuizPage(Model model) {
+        logger.info("Showing create-quiz page.");
         model.addAttribute("page_title", "Create Your Own Quiz");
         return "create-quiz-page";
     }
