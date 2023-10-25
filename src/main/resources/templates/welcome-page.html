@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Quiz</title>
+    <link rel="stylesheet" th:href="@{/css/global.css}" />
+    <link rel="stylesheet" th:href="@{/css/welcome-page.css}" />
+</head>
+
+<body>
+<div id="loading">Loading...</div>
+<div id="menu">
+    <ul>
+        <li><a href="#" class="menu-button" id="welcome-page-button">Welcome Page</a></li>
+        <li><a href="#" class="menu-button" id="different-quizzes-button">Different Quizzes</a></li>
+        <li><a href="#" class="menu-button" id="create-quiz-button">Create Your Own Quiz</a></li>
+        <li><a href="#" class="menu-button" id="leaderboard-button">Leaderboard</a></li>
+    </ul>
+</div>
+
+<div id="main-content">
+    <div id="welcome-box-title">
+        <h2>Quiz Wiz</h2>
+    </div>
+
+    <div id="welcome-box">
+        <p th:text="${message}">Placeholder Title</p>
+    </div>
+
+    <script th:src="@{/js/main-menu.js}" defer></script>
+    <script th:src="@{/js/welcome-page.js}" defer></script>
+</div>
+</body>
+</html>
