@@ -62,9 +62,7 @@ public class TestObjectFactory {
     }
 
     public static Quiz createQuizWithTopic(String topic) {
-        Question defaultQuestion = createDefaultQuestion();
         Quiz quiz = new Quiz(topic, null);
-        //defaultQuestion.setQuiz(); // To avoid circular reference
         return quiz;
     }
 

@@ -12,7 +12,8 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("Quiz Repository:") public class QuizRepositoryTest extends TestDatabaseImplementation {
+@DisplayName("Quiz Repository:")
+public class QuizRepositoryTest extends TestDatabaseImplementation {
     @Autowired
     private QuizRepository quizRepository;
 
