@@ -1,12 +1,15 @@
 package se.juninatt.quizwiz.TestUtl;
 
 
+import se.juninatt.quizwiz.model.dto.AnswerOptionCreationDTO;
+import se.juninatt.quizwiz.model.dto.QuestionCreationDTO;
 import se.juninatt.quizwiz.model.dto.QuizCreationDTO;
 import se.juninatt.quizwiz.model.entity.AnswerOption;
 import se.juninatt.quizwiz.model.entity.GameSummary;
 import se.juninatt.quizwiz.model.entity.Question;
 import se.juninatt.quizwiz.model.entity.Quiz;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -75,14 +78,30 @@ public class TestObjectFactory {
         );
     }
 
+    public static List<AnswerOptionCreationDTO> createDefaultAnswerOptionDTOList() {
+        return List.of(
+                new AnswerOptionCreationDTO("Yes", false),
+                new AnswerOptionCreationDTO("No", false),
+                new AnswerOptionCreationDTO("Maybe", false),
+                new AnswerOptionCreationDTO("I don´t know", true)
+        );
+    }
+
     // QUIZ DTO CREATION
 
 
-    public static QuizCreationDTO createQuizCreationDTOWithTopic(String topic) {
-        return new QuizCreationDTO(topic, null);
+    public static QuizCreationDTO createQuizCreationDTOWithTopicAndQuestions(String topic, List<QuestionCreationDTO> questions) {
+        return new QuizCreationDTO(topic, questions);
     }
 
     public static QuizCreationDTO createDefaultQuizCreationDTO() {
-        return createQuizCreationDTOWithTopic("Default topic");
+        return createQuizCreationDTOWithTopicAndQuestions("Default topic", null);
+    }
+
+    public static QuizCreationDTO createQuizCreationDTOWithQuestions() {
+        QuestionCreationDTO question1 = new QuestionCreationDTO("What is the capital of Sweden?", 1, 1, createDefaultAnswerOptionDTOList());
+        QuestionCreationDTO question2 = new QuestionCreationDTO("What is the square root of 121?", 1, 1, createDefaultAnswerOptionDTOList());
+
+        return new QuizCreationDTO("Quiz with questions", Arrays.asList(question1, question2));
     }
 }

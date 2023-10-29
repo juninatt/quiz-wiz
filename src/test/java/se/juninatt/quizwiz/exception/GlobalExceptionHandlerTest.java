@@ -21,7 +21,7 @@ public class GlobalExceptionHandlerTest {
     @Test
     @DisplayName("Handles InvalidInputException")
     public void testHandle_InvalidInputException() {
-        InvalidInputException exception = new InvalidInputException("Invalid input test");
+        InvalidQuizTopicException exception = new InvalidQuizTopicException("Invalid input test");
         ModelAndView mav = globalExceptionHandler.handleInvalidInputException(exception);
 
         assertEquals("error-page", mav.getViewName());

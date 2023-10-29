@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * Custom exception class representing a bad request.
  */
 @ResponseStatus(HttpStatus.BAD_REQUEST)
-public class InvalidInputException extends RuntimeException {
+public class InvalidQuizTopicException extends RuntimeException {
 
     /**
      * Constructs a new exception with the specified detail message.
      *
      * @param message the detail message describing the error.
      */
-    public InvalidInputException(String message) {
+    public InvalidQuizTopicException(String message) {
         super(message);
     }
 
@@ -24,7 +24,7 @@ public class InvalidInputException extends RuntimeException {
      * @param message The detail message describing the error.
      * @param cause   The cause of the exception.
      */
-    public InvalidInputException(String message, Throwable cause) {
+    public InvalidQuizTopicException(String message, Throwable cause) {
         super(message, cause);
     }
 

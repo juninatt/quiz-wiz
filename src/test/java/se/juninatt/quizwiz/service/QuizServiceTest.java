@@ -6,9 +6,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import se.juninatt.quizwiz.TestUtl.TestObjectFactory;
 import se.juninatt.quizwiz.config.implementation.TestDatabaseImplementation;
-import se.juninatt.quizwiz.exception.InvalidInputException;
+import se.juninatt.quizwiz.exception.InvalidQuizCreationContentException;
+import se.juninatt.quizwiz.exception.InvalidQuizTopicException;
 import se.juninatt.quizwiz.exception.QuizNotFoundException;
+import se.juninatt.quizwiz.model.dto.QuizCreationDTO;
+import se.juninatt.quizwiz.model.dto.QuizSummaryDTO;
 import se.juninatt.quizwiz.model.entity.Quiz;
+import se.juninatt.quizwiz.repository.QuestionRepository;
 import se.juninatt.quizwiz.repository.QuizRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,6 +24,8 @@ public class QuizServiceTest extends TestDatabaseImplementation {
     private QuizService quizService;
     @Autowired
     private QuizRepository quizRepository;
+    @Autowired
+    private QuestionRepository questionRepository;
 
 
     @Nested
@@ -49,7 +55,7 @@ public class QuizServiceTest extends TestDatabaseImplementation {
 
             // Act and Assert
             assertThatThrownBy(() -> quizService.getQuizByTopic(emptyString))
-                    .isInstanceOf(InvalidInputException.class)
+                    .isInstanceOf(InvalidQuizTopicException.class)
                     .hasMessage("No topic to search for");
         }
 
@@ -58,7 +64,7 @@ public class QuizServiceTest extends TestDatabaseImplementation {
         public void testMethod_throwsException_whenInputIsNull() {
             // Act and Assert
             assertThatThrownBy(() -> quizService.getQuizByTopic(null))
-                    .isInstanceOf(InvalidInputException.class)
+                    .isInstanceOf(InvalidQuizTopicException.class)
                     .hasMessage("No topic to search for");
         }
 
@@ -72,6 +78,35 @@ public class QuizServiceTest extends TestDatabaseImplementation {
             assertThatThrownBy(() -> quizService.getQuizByTopic(nonExistentTopic))
                     .isInstanceOf(QuizNotFoundException.class)
                     .hasMessage("Quiz with topic: '" + nonExistentTopic + "' could not be found.");
+        }
+    }
+
+
+    @Nested
+    @DisplayName("Tests for method: createQuiz(QuizCreationDTO);")
+    class CreateQuizTest {
+
+        @Test
+        @DisplayName("Successfully creates a quiz and returns summary")
+        public void testMethod_createsQuiz_ReturnsSummary() {
+            // Arrange
+            QuizCreationDTO quizCreationDTO = TestObjectFactory.createQuizCreationDTOWithQuestions();
+
+            // Act
+            QuizSummaryDTO quizSummaryDTO = quizService.createQuiz(quizCreationDTO);
+
+            // Assert
+            assertThat(quizSummaryDTO).isNotNull();
+            assertThat(quizSummaryDTO.topic()).isEqualTo(quizCreationDTO.topic());
+        }
+
+        @Test
+        @DisplayName("Throws exception when quizCreationDTO is null")
+        public void testMethod_throwsException_WhenQuizCreationDTOIsNull() {
+            // Act and Assert
+            assertThatThrownBy(() -> quizService.createQuiz(null))
+                    .isInstanceOf(InvalidQuizCreationContentException.class)
+                    .hasMessage("Quiz cannot be null");
         }
     }
 }

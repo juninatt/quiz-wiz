@@ -16,7 +16,7 @@ public class QuizMapperTest {
     @Test
     void mapFromQuizCreationDTOToQuiz() {
         QuizCreationDTO quizDTO = TestObjectFactory.createDefaultQuizCreationDTO();
-        Quiz result = QuizMapper.INSTANCE.quizCreationDTOToQuiz(quizDTO);
+        Quiz result = QuizMapper.INSTANCE.dtoToEntity(quizDTO);
 
         assertThat(result.getTopic()).isEqualTo(quizDTO.topic());
     }

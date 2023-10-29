@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
-import se.juninatt.quizwiz.exception.InvalidInputException;
+import se.juninatt.quizwiz.exception.InvalidQuizTopicException;
 import se.juninatt.quizwiz.exception.QuizNotFoundException;
 
 /**
@@ -34,14 +34,14 @@ public class GlobalExceptionHandler {
         return mav;
     }
 
-    @ExceptionHandler(InvalidInputException.class)
-    public ModelAndView handleInvalidInputException(InvalidInputException e) {
+    @ExceptionHandler(InvalidQuizTopicException.class)
+    public ModelAndView handleInvalidInputException(InvalidQuizTopicException e) {
         logger.error("An error occurred: ", e);
 
         ModelAndView mav = new ModelAndView("error-page");
         mav.addObject("errorMessage", "Invalid input provided.");
         mav.addObject("errorDetails", e.getMessage());
-        mav.setStatus(InvalidInputException.class.getAnnotation(ResponseStatus.class).value());  // Set HTTP status to 404
+        mav.setStatus(InvalidQuizTopicException.class.getAnnotation(ResponseStatus.class).value());  // Set HTTP status to 404
 
         return mav;
     }
