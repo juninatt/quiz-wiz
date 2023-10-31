@@ -6,6 +6,7 @@ import se.juninatt.quizwiz.model.entity.Quiz;
 
 /**
  * Custom exception class to represent a {@link Quiz} not found error.
+ * The HTTP status for this exception is set to NOT_FOUND (404).
  */
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class QuizNotFoundException extends RuntimeException {

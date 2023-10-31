@@ -39,7 +39,7 @@ function nextQuestion() {
     <label for="timeLimit">Time Limit (seconds):</label>
     <input type="number" id="timeLimit" name="timeLimit" value="1">
     <label for="points">Points:</label>
-    <input type="number" id="points" name="points">
+    <input type="number" id="points" name="points" value="1">
     <button onclick="collectQuestion()">Next</button>
   `;
   document.getElementById("form-container").innerHTML = html;
@@ -110,11 +110,10 @@ function collectAnswers() {
 
   questionCount++;
 
-  if (questionCount < 5) {
-    nextQuestion();
-  } else {
+  if (questionCount === 5) {
     completeQuiz();
-    console.log("Quiz completed", questions);
+  } else {
+    nextQuestion();
   }
 }
 
@@ -125,7 +124,49 @@ function collectAllAnswerOptions() {
 function completeQuiz() {
   console.log("Quiz completed", questions);
 
-  sendQuizToBackend();
+  const summaryHtml = `
+    <div class="summary-container">
+      <h3>Quiz Preview: <span class="title-value">${quizTopic}</span></h3>
+      <ul class="summary-list">
+        ${questions.map((q, index) => `
+          <li class="summary-item">
+            <div class="question-row">
+              <span class="question-label">Question ${index + 1}: </span>
+              <span class="question-text">${q.question}</span>
+            </div>
+            <div class="info-row">
+              <span class="time-container">
+                <span class="time-label">Time Limit:</span>
+                <span class="time-value">${q.timeLimit} s</span>
+              </span>
+              <span class="points-container">
+                <span class="points-label">Points:</span>
+                <span class="points-value">${q.points}</span>
+              </span>
+            </div>
+          </li>
+        `).join('')}
+      </ul>
+      <button class="summary-button" onclick="sendQuizToBackend()">Confirm</button>
+      <button class="summary-button" onclick="returnToCreateQuizPage()">Cancel</button>
+    </div>
+  `;
+
+
+const summaryElement = document.getElementById("form-container");
+summaryElement.innerHTML = summaryHtml;
+
+sendQuizToBackend();
+}
+
+function cancelQuiz() {
+  // Reset quiz state
+  questionCount = 0;
+  questions.length = 0;
+  quizTopic = "";
+
+  // Go back to initial form
+  initializeForm();
 }
 
 function sendQuizToBackend() {
@@ -156,7 +197,7 @@ function sendQuizToBackend() {
   .then(data => {
     console.log('Success:', data);
   })
-  .catch((error) => {
+  .catch(error => {
     console.error('Error:', error);
   });
 }

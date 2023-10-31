@@ -60,3 +60,94 @@
   border-radius: 5px;
 }
 
+/* Summary Overall Container */
+
+#form-container div {
+  background-color: #B2DFDB;  /* Light teal */
+  border: 2px solid #008080;  /* Teal border */
+  border-radius: 10px;
+  margin: 10px auto;
+  padding: 15px;
+  text-align: center;
+}
+
+/* Summary Topic */
+#form-container div h3 {
+  color: #006666;  /* Dark teal */
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  text-shadow: 2px 2px 2px #aaa;
+}
+
+/* Summary List Container */
+#form-container div ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+/* Summary List Items */
+#form-container div ul li {
+  display: flex;
+  flex-direction: column;
+  margin: 5px 0;
+  padding: 5px;
+  border-radius: 3px;
+}
+
+/* Styles for the question row */
+.question-row {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+/* Styles for the info row */
+.info-row {
+  display: flex;
+  justify-content: flex-end;
+  margin 20px;
+  border: none;
+}
+
+/* Styles for Summary List labels */
+.question-label,
+.time-label,
+.points-label {
+  color: #154360;  /* Dark blue */
+  font-weight: bold;
+  font-family: 'Arial', sans-serif;
+  text-shadow: 1px 1px 1px #aaa;
+}
+
+/* Styles for Summary List label values */
+.title-value,
+.question-text,
+.time-value,
+.points-value {
+  color: #FF8C00;  /* Dark orange color */
+    text-shadow: 1px 1px 1px #000;
+}
+
+.time-container {
+margin-right: 20px;
+}
+
+
+/* Style for the buttons */
+.summary-button {
+  border: 2px solid #008080;  /* Teal border */
+  border-radius: 10px;
+  margin: 10px;
+  padding: 15px;
+  color: #154360;  /* Dark blue */
+  font-weight: bold;
+  font-family: 'Arial', sans-serif;
+  text-shadow: 1px 1px 1px #aaa;
+  cursor: pointer;
+}
+
+.summary-button:hover {
+  background-color: #008080;  /* Teal */
+  color: #fff;  /* White */
+}
+
+

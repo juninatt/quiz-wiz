@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import se.juninatt.quizwiz.TestUtl.TestObjectFactory;
 import se.juninatt.quizwiz.config.implementation.TestDatabaseImplementation;
-import se.juninatt.quizwiz.exception.InvalidQuizCreationContentException;
+import se.juninatt.quizwiz.exception.InvalidQuizException;
 import se.juninatt.quizwiz.exception.InvalidQuizTopicException;
 import se.juninatt.quizwiz.exception.QuizNotFoundException;
 import se.juninatt.quizwiz.model.dto.QuizCreationDTO;
@@ -105,7 +105,7 @@ public class QuizServiceTest extends TestDatabaseImplementation {
         public void testMethod_throwsException_WhenQuizCreationDTOIsNull() {
             // Act and Assert
             assertThatThrownBy(() -> quizService.createQuiz(null))
-                    .isInstanceOf(InvalidQuizCreationContentException.class)
+                    .isInstanceOf(InvalidQuizException.class)
                     .hasMessage("Quiz cannot be null");
         }
     }

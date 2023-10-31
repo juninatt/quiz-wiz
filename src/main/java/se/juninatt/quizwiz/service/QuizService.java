@@ -1,10 +1,14 @@
 package se.juninatt.quizwiz.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import se.juninatt.quizwiz.exception.InvalidQuizCreationContentException;
+import org.springframework.transaction.annotation.Transactional;
+import se.juninatt.quizwiz.exception.InvalidQuizException;
 import se.juninatt.quizwiz.exception.InvalidQuizTopicException;
 import se.juninatt.quizwiz.exception.QuizNotFoundException;
+import se.juninatt.quizwiz.exception.QuizPersistenceException;
 import se.juninatt.quizwiz.mapper.QuizMapper;
 import se.juninatt.quizwiz.model.dto.QuizCreationDTO;
 import se.juninatt.quizwiz.model.dto.QuizSummaryDTO;
@@ -26,6 +30,7 @@ import java.util.stream.Collectors;
 @Component
 public class QuizService {
 
+    private static final Logger logger = LoggerFactory.getLogger(QuizService.class);
     private final QuizRepository quizRepository;
     private final QuestionRepository questionRepository;
     private final AnswerOptionRepository answerOptionRepository;
@@ -47,10 +52,14 @@ public class QuizService {
      * @throws QuizNotFoundException If no quiz with the given topic is found.
      */
     public Quiz getQuizByTopic(String topic) {
-        if (topic == null || topic.isEmpty())
+        if (topic == null || topic.isEmpty()) {
+            logger.warn("Attempt to search for a quiz with empty or null topic");
             throw new InvalidQuizTopicException("No topic to search for");
-        return quizRepository.findByTopicIgnoreCase(topic)
+        }
+        Quiz quiz = quizRepository.findByTopicIgnoreCase(topic)
                 .orElseThrow(() -> new QuizNotFoundException("Quiz with topic: '" + topic + "' could not be found."));
+        logger.info("Quiz with topic: {} successfully retrieved", topic);
+        return quiz;
     }
 
     /**
@@ -58,15 +67,25 @@ public class QuizService {
      *
      * @param quizContent The DTO containing information for quiz creation. Cannot be null.
      * @return A DTO summarizing the created quiz.
-     * @throws InvalidQuizCreationContentException if the provided QuizCreationDTO is null.
+     * @throws InvalidQuizException if the provided QuizCreationDTO is null.
      */
+    @Transactional
     public QuizSummaryDTO createQuiz(QuizCreationDTO quizContent) {
-        if (quizContent == null)
-            throw new InvalidQuizCreationContentException("Quiz cannot be null");
-        Quiz quiz = saveQuiz(quizContent);
-        List<Question> questions = saveQuestions(quizContent, quiz);
+        if (quizContent == null) {
+            logger.error("Attempt to create a quiz with null QuizCreationDTO");
+            throw new InvalidQuizException("Quiz cannot be null");
+        }
+        try {
+            Quiz quiz = saveQuiz(quizContent);
+            List<Question> questions = saveQuestions(quizContent, quiz);
 
-        return createSummary(quiz, questions);
+            logger.info("Quiz with topic: {} successfully created", quiz.getTopic());
+
+            return createSummary(quiz, questions);
+        } catch (RuntimeException exception) {
+            logger.error("Failed to create quiz", exception);
+            throw new QuizPersistenceException(exception.getMessage(), exception.getCause());
+        }
     }
 
     /**

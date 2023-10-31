@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * Custom exception class representing a bad request.
+ * The HTTP status for this exception is set to BAD_REQUEST (400).
  */
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class InvalidQuizTopicException extends RuntimeException {
