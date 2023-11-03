@@ -2,7 +2,6 @@ package se.juninatt.quizwiz.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.juninatt.quizwiz.exception.InvalidQuizException;
@@ -10,8 +9,9 @@ import se.juninatt.quizwiz.exception.InvalidQuizTopicException;
 import se.juninatt.quizwiz.exception.QuizNotFoundException;
 import se.juninatt.quizwiz.exception.QuizPersistenceException;
 import se.juninatt.quizwiz.mapper.QuizMapper;
-import se.juninatt.quizwiz.model.dto.QuizCreationDTO;
+import se.juninatt.quizwiz.model.dto.QuizDTO;
 import se.juninatt.quizwiz.model.dto.QuizSummaryDTO;
+import se.juninatt.quizwiz.model.dto.QuizSummaryListDTO;
 import se.juninatt.quizwiz.model.entity.AnswerOption;
 import se.juninatt.quizwiz.model.entity.Question;
 import se.juninatt.quizwiz.model.entity.Quiz;
@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
  * Manages interactions with {@link Quiz}, {@link Question}, and {@link AnswerOption} repositories.
  */
 @Service
-@Component
 public class QuizService {
 
     private static final Logger logger = LoggerFactory.getLogger(QuizService.class);
@@ -63,25 +62,22 @@ public class QuizService {
     }
 
     /**
-     * Creates a {@link QuizSummaryDTO} using the {@link QuizCreationDTO} object.
+     * Creates a {@link QuizSummaryDTO} using the {@link QuizDTO} object.
      *
      * @param quizContent The DTO containing information for quiz creation. Cannot be null.
      * @return A DTO summarizing the created quiz.
      * @throws InvalidQuizException if the provided QuizCreationDTO is null.
      */
     @Transactional
-    public QuizSummaryDTO createQuiz(QuizCreationDTO quizContent) {
+    public QuizSummaryDTO createQuiz(QuizDTO quizContent) {
         if (quizContent == null) {
             logger.error("Attempt to create a quiz with null QuizCreationDTO");
             throw new InvalidQuizException("Quiz cannot be null");
         }
         try {
-            Quiz quiz = saveQuiz(quizContent);
-            List<Question> questions = saveQuestions(quizContent, quiz);
-
-            logger.info("Quiz with topic: {} successfully created", quiz.getTopic());
-
-            return createSummary(quiz, questions);
+            Quiz savedQuiz = saveQuiz(quizContent);
+            logger.info("Quiz '{}' successfully created", quizContent.topic());
+            return createSummary(savedQuiz);
         } catch (RuntimeException exception) {
             logger.error("Failed to create quiz", exception);
             throw new QuizPersistenceException(exception.getMessage(), exception.getCause());
@@ -89,50 +85,41 @@ public class QuizService {
     }
 
     /**
-     * Creates a {@link QuizSummaryDTO} based on a {@link Quiz} entity and its associated {@link Question} objects.
+     * Retrieves a list of {@link Quiz}zes and summarizes them into a {@link QuizSummaryListDTO}.
      *
-     * @param quiz      The Quiz entity.
-     * @param questions The list of Question entities associated with the quiz.
-     * @return A summary DTO.
+     * @return A QuizSummaryListDTO containing summaries of all quizzes.
      */
-    private QuizSummaryDTO createSummary(Quiz quiz, List<Question> questions) {
+    public QuizSummaryListDTO getQuizSummaryList() {
+        List<Quiz> quizzes = quizRepository.findAll();
+        List<QuizSummaryDTO> quizSummaries = quizzes.stream()
+                .map(this::createSummary)
+                .toList();
+
+        return new QuizSummaryListDTO(quizSummaries);
+    }
+
+    /**
+     * Creates a {@link QuizSummaryDTO} for a given {@link Quiz}.
+     *
+     * @param quiz The quiz entity to summarize.
+     * @return The QuizSummaryDTO with details from the provided quiz entity.
+     */
+    private QuizSummaryDTO createSummary(Quiz quiz) {
+        List<Question> questions = quiz.getQuestions();
         List<String> questionList = questions.stream()
                 .map(Question::getQuestionText)
                 .collect(Collectors.toList());
 
-        return new QuizSummaryDTO(quiz.getTopic(), questionList, getTotalTime(questions), getTotalScore(questions));
+        return new QuizSummaryDTO(quiz.getId(), quiz.getTopic(), questionList, getTotalTime(questions), getTotalScore(questions));
     }
 
     /**
-     * Saves {@link Question} associated with a {@link Quiz}.
-     *
-     * @param quizContent The DTO containing question information.
-     * @param quiz        The Quiz entity to associate the questions with.
-     * @return The list of saved Question entities.
-     */
-    private List<Question> saveQuestions(QuizCreationDTO quizContent, Quiz quiz) {
-        List<Question> questions = quizContent.questions().stream()
-                .map(QuizMapper.INSTANCE::dtoToEntity)
-                .toList();
-
-        questions.forEach(question -> {
-            question.setQuiz(quiz);
-            questionRepository.save(question);
-            question.getAnswerOptions().forEach(option -> {
-                option.setQuestion(question);
-                answerOptionRepository.save(option);
-            });
-        });
-        return questions;
-    }
-
-    /**
-     * Saves a {@link Quiz} entity based on a {@link QuizCreationDTO}.
+     * Saves a {@link Quiz} entity based on a {@link QuizDTO}.
      *
      * @param quizContent The DTO containing quiz information.
      * @return The saved Quiz entity.
      */
-    private Quiz saveQuiz(QuizCreationDTO quizContent) {
+    private Quiz saveQuiz(QuizDTO quizContent) {
         Quiz quiz = QuizMapper.INSTANCE.dtoToEntity(quizContent);
         quizRepository.save(quiz);
         return quiz;
@@ -160,5 +147,9 @@ public class QuizService {
         return questions.stream()
                 .mapToInt(Question::getTimeLimit)
                 .sum();
+    }
+
+    public List<Quiz> getAllQuizzes() {
+        return quizRepository.findAll();
     }
 }

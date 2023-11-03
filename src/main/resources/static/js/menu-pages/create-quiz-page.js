@@ -74,12 +74,12 @@ function collectQuestion() {
 function nextAnswerOptions() {
   const html = `
     <label>Enter answer options:</label>
-    <input type="text" id="option1" placeholder="Option 1">
-    <input type="text" id="option2" placeholder="Option 2">
-    <input type="text" id="option3" placeholder="Option 3">
-    <input type="text" id="option4" placeholder="Option 4">
+    <input type="text" id="option1" class="answer-option" placeholder="Option 1">
+    <input type="text" id="option2" class="answer-option" placeholder="Option 2">
+    <input type="text" id="option3" class="answer-option" placeholder="Option 3">
+    <input type="text" id="option4" class="answer-option" placeholder="Option 4">
     <label for="correctOption">Select the correct answer:</label>
-    <select id="correctOption">
+    <select id="correctOption" onchange="highlightCorrectOption()">
       <option value="1">Option 1</option>
       <option value="2">Option 2</option>
       <option value="3">Option 3</option>
@@ -88,6 +88,17 @@ function nextAnswerOptions() {
     <button onclick="collectAnswers()">Next</button>
   `;
   document.getElementById("form-container").innerHTML = html;
+}
+
+function highlightCorrectOption() {
+  // Remove any existing highlight
+  document.querySelectorAll('.answer-option').forEach(el => {
+    el.classList.remove('highlight-correct');
+  });
+
+  // Highlight the correct option
+  const correctOption = document.getElementById("correctOption").value;
+  document.getElementById(`option${correctOption}`).classList.add('highlight-correct');
 }
 
 // Collect answers and correct option, then move to next question
@@ -106,7 +117,7 @@ function collectAnswers() {
 
   const correctOption = document.getElementById("correctOption").value;
   questions[questionCount].options = options;
-  questions[questionCount].correctOption = correctOption;
+  questions[questionCount].correctOption = parseInt(correctOption, 10);
 
   questionCount++;
 
@@ -155,8 +166,6 @@ function completeQuiz() {
 
 const summaryElement = document.getElementById("form-container");
 summaryElement.innerHTML = summaryHtml;
-
-sendQuizToBackend();
 }
 
 function cancelQuiz() {
@@ -177,7 +186,8 @@ function sendQuizToBackend() {
     points: q.points,
     answerOptions: q.options.map((option, index) => ({
       optionText: option,
-      isCorrectAnswer: (q.correctOption === index + 1)
+      // Use integers instead of booleans
+      isCorrectAnswer: (q.correctOption === index + 1) ? 1 : 0  // Use integers 1 or 0
     }))
   }));
 
@@ -193,11 +203,14 @@ function sendQuizToBackend() {
     },
     body: JSON.stringify(quiz)
   })
-  .then(response => response.json())
+  .then(response => response.text())
   .then(data => {
+    window.location.href = '/quizwiz';
     console.log('Success:', data);
   })
   .catch(error => {
     console.error('Error:', error);
   });
 }
+
+

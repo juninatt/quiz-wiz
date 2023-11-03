@@ -9,8 +9,9 @@ import se.juninatt.quizwiz.config.implementation.TestDatabaseImplementation;
 import se.juninatt.quizwiz.exception.InvalidQuizException;
 import se.juninatt.quizwiz.exception.InvalidQuizTopicException;
 import se.juninatt.quizwiz.exception.QuizNotFoundException;
-import se.juninatt.quizwiz.model.dto.QuizCreationDTO;
+import se.juninatt.quizwiz.model.dto.QuizDTO;
 import se.juninatt.quizwiz.model.dto.QuizSummaryDTO;
+import se.juninatt.quizwiz.model.dto.QuizSummaryListDTO;
 import se.juninatt.quizwiz.model.entity.Quiz;
 import se.juninatt.quizwiz.repository.QuestionRepository;
 import se.juninatt.quizwiz.repository.QuizRepository;
@@ -90,14 +91,14 @@ public class QuizServiceTest extends TestDatabaseImplementation {
         @DisplayName("Successfully creates a quiz and returns summary")
         public void testMethod_createsQuiz_ReturnsSummary() {
             // Arrange
-            QuizCreationDTO quizCreationDTO = TestObjectFactory.createQuizCreationDTOWithQuestions();
+            QuizDTO quizDTO = TestObjectFactory.createQuizCreationDTOWithQuestions();
 
             // Act
-            QuizSummaryDTO quizSummaryDTO = quizService.createQuiz(quizCreationDTO);
+            QuizSummaryDTO quizSummaryDTO = quizService.createQuiz(quizDTO);
 
             // Assert
             assertThat(quizSummaryDTO).isNotNull();
-            assertThat(quizSummaryDTO.topic()).isEqualTo(quizCreationDTO.topic());
+            assertThat(quizSummaryDTO.topic()).isEqualTo(quizDTO.topic());
         }
 
         @Test
@@ -107,6 +108,36 @@ public class QuizServiceTest extends TestDatabaseImplementation {
             assertThatThrownBy(() -> quizService.createQuiz(null))
                     .isInstanceOf(InvalidQuizException.class)
                     .hasMessage("Quiz cannot be null");
+        }
+    }
+
+    @Nested
+    @DisplayName("Tests for method: getQuizSummaryList()")
+    class GetQuizSummaryListTest {
+
+        @Test
+        @DisplayName("Successfully retrieves a non-empty list of quiz summaries")
+        void testGetQuizSummaryList_NonEmpty() {
+            // Arrange
+            Quiz quiz = TestObjectFactory.createDefaultQuiz();
+            quizRepository.save(quiz);
+
+            // Act
+            QuizSummaryListDTO result = quizService.getQuizSummaryList();
+
+            // Assert
+            assertThat(result.quizzes()).isNotEmpty();
+            assertThat(result.quizzes().get(0).id()).isEqualTo(quiz.getId());
+        }
+
+        @Test
+        @DisplayName("Returns an empty list when no quizzes are present")
+        void testGetQuizSummaryList_Empty() {
+            // Act
+            QuizSummaryListDTO result = quizService.getQuizSummaryList();
+
+            // Assert
+            assertThat(result.quizzes()).isEmpty();
         }
     }
 }

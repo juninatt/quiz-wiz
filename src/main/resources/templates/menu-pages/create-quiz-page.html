@@ -9,15 +9,7 @@
 <body class="create-quiz-page">
 
 <!-- Sidebar Menu -->
-<div id="menu">
-  <ul>
-    <!-- Menu buttons to navigate to different parts of the app -->
-    <li><a href="#" class="menu-button" id="welcome-page-button">Welcome Page</a></li>
-    <li><a href="#" class="menu-button" id="different-quizzes-button">Different Quizzes</a></li>
-    <li><a href="#" class="menu-button" id="create-quiz-button">Create Your Own Quiz</a></li>
-    <li><a href="#" class="menu-button" id="leaderboard-button">Leaderboard</a></li>
-  </ul>
-</div>
+<div th:insert="~{menu}"></div>
 
 <!-- Main Content -->
 <div id="main-content">
@@ -29,6 +21,6 @@
 
 <!-- Linking JavaScript files -->
 <script th:src="@{/js/main-menu.js}" defer></script>
-<script th:src="@{/js/create-quiz-page.js}" defer></script>
+<script th:src="@{/js/menu-pages/create-quiz-page.js}" defer></script>
 </body>
 </html>

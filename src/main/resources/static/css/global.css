@@ -1,6 +1,6 @@
 /* Global body styling */
 body {
-    font-family: Arial, sans-serif;  /* Font-family */
+    font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     color: #333;
 }
@@ -9,4 +9,23 @@ body {
     font-size: 36px;
     text-align: center;
     margin-bottom: 20px;
+}
+
+.container {
+  display: flex;
+}
+
+
+/* For larger screens */
+@media (min-width: 769px) {
+  #main-content {
+    padding-left: 220px;  /* Width of #menu (200px) + its padding (15px on each side) */
+  }
+}
+
+/* For smaller screens */
+@media (max-width: 768px) {
+  #main-content {
+    padding-left: 0;  /* Resetting padding to 0 for smaller screens */
+  }
 }

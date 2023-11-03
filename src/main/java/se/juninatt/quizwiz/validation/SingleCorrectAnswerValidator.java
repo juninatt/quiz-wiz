@@ -35,7 +35,7 @@ public class SingleCorrectAnswerValidator implements ConstraintValidator<SingleC
         }
 
         long correctAnswerCount = answerOptions.stream()
-                .filter(AnswerOption::isCorrectAnswer)
+                .filter(answerOption -> answerOption.getIsCorrectAnswer() == 1) // Adapted this line
                 .count();
 
         return correctAnswerCount == 1;

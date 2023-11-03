@@ -13,8 +13,14 @@ public class AnswerOption {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "option_text")
     private String optionText;
-    private boolean isCorrectAnswer;
+
+    /**
+     * Indicates if the answer is correct (1) or not (0), adhering to SQLite's integer-based boolean representation.
+     */
+    @Column(name = "is_correct_answer")
+    private int isCorrectAnswer;
 
     @ManyToOne
     @JoinColumn(name = "question_id")
@@ -24,7 +30,7 @@ public class AnswerOption {
 
     public AnswerOption() {}
 
-    public AnswerOption(String optionText, boolean isCorrectAnswer) {
+    public AnswerOption(String optionText, int isCorrectAnswer) {
         this.optionText = optionText;
         this.isCorrectAnswer = isCorrectAnswer;
     }
@@ -52,11 +58,11 @@ public class AnswerOption {
         return question;
     }
 
-    public boolean isCorrectAnswer() {
+    public int getIsCorrectAnswer() {
         return isCorrectAnswer;
     }
 
-    public void setCorrectAnswer(boolean correctAnswer) {
+    public void setIsCorrectAnswer(int correctAnswer) {
         isCorrectAnswer = correctAnswer;
     }
 
@@ -87,8 +93,7 @@ public class AnswerOption {
         return "AnswerOption{" +
                 "id=" + id +
                 ", optionText='" + optionText + '\'' +
-                ", isCorrectAnswer=" + isCorrectAnswer +
-                ", question=" + question +
+                ", getIsCorrectAnswer=" + isCorrectAnswer +
                 '}';
     }
 }

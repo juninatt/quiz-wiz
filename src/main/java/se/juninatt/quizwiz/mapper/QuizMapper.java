@@ -2,15 +2,16 @@ package se.juninatt.quizwiz.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-import se.juninatt.quizwiz.model.dto.AnswerOptionCreationDTO;
-import se.juninatt.quizwiz.model.dto.QuestionCreationDTO;
-import se.juninatt.quizwiz.model.dto.QuizCreationDTO;
+import se.juninatt.quizwiz.model.dto.AnswerOptionDTO;
+import se.juninatt.quizwiz.model.dto.QuestionDTO;
+import se.juninatt.quizwiz.model.dto.QuizDTO;
 import se.juninatt.quizwiz.model.entity.AnswerOption;
 import se.juninatt.quizwiz.model.entity.Question;
 import se.juninatt.quizwiz.model.entity.Quiz;
 
 /**
- * Interface responsible for mapping between DTO and Entity objects related to quizzes.
+ * Interface for mapping Data Transfer Objects (DTOs) to Entities and vice versa in the context of quizzes.
+ * This is essential for transferring data between different architectural layers.
  */
 @Mapper
 public interface QuizMapper {
@@ -21,20 +22,34 @@ public interface QuizMapper {
     QuizMapper INSTANCE = Mappers.getMapper( QuizMapper.class );
 
     /**
-     * Maps a {@link QuizCreationDTO} object to a {@link Quiz} entity.
+     * Maps a {@link QuizDTO} object to a {@link Quiz} entity.
      *
-     * @param quizCreationDTO The DTO object containing quiz creation information.
+     * @param quizDTO The DTO object containing quiz creation information.
      * @return The mapped Quiz entity.
      */
-    Quiz dtoToEntity(QuizCreationDTO quizCreationDTO);
+    Quiz dtoToEntity(QuizDTO quizDTO);
 
     /**
-     * Maps an {@link AnswerOptionCreationDTO} object to an {@link AnswerOption} entity.
+     * Maps an {@link AnswerOptionDTO} object to an {@link AnswerOption} entity.
      *
      * @param answerOptionDTO The DTO object containing answer option creation information.
      * @return The mapped AnswerOption entity.
      */
-    AnswerOption dtoToEntity(AnswerOptionCreationDTO answerOptionDTO);
+    AnswerOption dtoToEntity(AnswerOptionDTO answerOptionDTO);
 
-    Question dtoToEntity(QuestionCreationDTO questionDTO);
+    /**
+     * Converts a {@link QuestionDTO} to a {@link Question} entity.
+     *
+     * @param questionDTO the DTO containing question data.
+     * @return a Question entity corresponding to the provided DTO.
+     */
+    Question dtoToEntity(QuestionDTO questionDTO);
+
+    /**
+     * Converts a {@link Quiz} entity to a {@link QuizDTO}.
+     *
+     * @param quizEntity the entity containing quiz data.
+     * @return a QuizDTO corresponding to the provided entity.
+     */
+    QuizDTO entityToDTO(Quiz quizEntity);
 }

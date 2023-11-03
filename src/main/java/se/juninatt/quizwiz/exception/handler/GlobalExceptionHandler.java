@@ -25,10 +25,10 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(RuntimeException.class)
     public ModelAndView handleRuntimeException(RuntimeException exception) {
-        logger.error("An error occurred: ", exception);
+        logger.error("An unexpected exception was caught by the global exception handler: ", exception);
 
         ModelAndView mav = new ModelAndView("error-page");
-        mav.addObject("errorMessage", "An unexpected error has occurred.");
+        mav.addObject("errorMessage", "An unexpected exception was caught by the global exception handler: ");
         mav.addObject("errorDetails", exception.getMessage());
 
         return mav;

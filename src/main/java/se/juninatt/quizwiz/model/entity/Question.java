@@ -14,11 +14,16 @@ public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "question_text")
     private String questionText;
+    @Column(name = "time_limit")
     private int timeLimit;
+    @Column(name = "points")
     private int points;
-    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<AnswerOption> answerOptions;
+
     @ManyToOne
     @JoinColumn(name = "quiz_id")
     private Quiz quiz;
@@ -61,6 +66,7 @@ public class Question {
 
     public void setAnswerOptions(List<AnswerOption> answerOptions) {
         this.answerOptions = answerOptions;
+        answerOptions.forEach(answerOption -> answerOption.setQuestion(this));
     }
 
     public int getTimeLimit() {
@@ -110,7 +116,6 @@ public class Question {
                 ", answerOptions=" + answerOptions +
                 ", timeLimit=" + timeLimit +
                 ", points=" + points +
-                ", quiz=" + quiz +
                 '}';
     }
 }

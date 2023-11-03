@@ -47,7 +47,7 @@ public class GlobalExceptionHandlerTest {
         ModelAndView mav = globalExceptionHandler.handleRuntimeException(exception);
 
         assertEquals("error-page", mav.getViewName());
-        assertEquals("An unexpected error has occurred.", mav.getModel().get("errorMessage"));
+        assertEquals("An unexpected exception was caught by the global exception handler: ", mav.getModel().get("errorMessage"));
         assertEquals("Runtime exception test", mav.getModel().get("errorDetails"));
     }
 }

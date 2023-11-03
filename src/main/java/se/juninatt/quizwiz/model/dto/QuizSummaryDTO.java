@@ -13,6 +13,8 @@ import java.util.List;
  * This object includes the topic of the quiz, total score, total time and a list of its {@link Question} objects.
  */
 public record QuizSummaryDTO(
+
+        long id,
         @Size(min = 1, max = 50, message = "Topic must be between 1 and 50 characters.")
         String topic,
 

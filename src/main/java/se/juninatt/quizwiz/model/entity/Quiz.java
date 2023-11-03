@@ -14,7 +14,9 @@ public class Quiz {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "topic")
     private String topic;
+
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Question> questions;
 
@@ -51,6 +53,7 @@ public class Quiz {
 
     public void setQuestions(List<Question> questions) {
         this.questions = questions;
+        questions.forEach(question -> question.setQuiz(this));
     }
 
     // Hashcode, equals and toString

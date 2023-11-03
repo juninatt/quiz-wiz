@@ -9,14 +9,8 @@
 
 <body>
 <div id="loading">Loading...</div>
-<div id="menu">
-    <ul>
-        <li><a href="#" class="menu-button" id="welcome-page-button">Welcome Page</a></li>
-        <li><a href="#" class="menu-button" id="different-quizzes-button">Different Quizzes</a></li>
-        <li><a href="#" class="menu-button" id="create-quiz-button">Create Your Own Quiz</a></li>
-        <li><a href="#" class="menu-button" id="leaderboard-button">Leaderboard</a></li>
-    </ul>
-</div>
+<!-- Sidebar Menu -->
+<div th:insert="~{menu}"></div>
 
 <div id="main-content">
     <div id="welcome-box-title">

@@ -1,9 +1,9 @@
 package se.juninatt.quizwiz.TestUtl;
 
 
-import se.juninatt.quizwiz.model.dto.AnswerOptionCreationDTO;
-import se.juninatt.quizwiz.model.dto.QuestionCreationDTO;
-import se.juninatt.quizwiz.model.dto.QuizCreationDTO;
+import se.juninatt.quizwiz.model.dto.AnswerOptionDTO;
+import se.juninatt.quizwiz.model.dto.QuestionDTO;
+import se.juninatt.quizwiz.model.dto.QuizDTO;
 import se.juninatt.quizwiz.model.entity.AnswerOption;
 import se.juninatt.quizwiz.model.entity.GameSummary;
 import se.juninatt.quizwiz.model.entity.Question;
@@ -65,43 +65,43 @@ public class TestObjectFactory {
     }
 
     public static Quiz createQuizWithTopic(String topic) {
-        Quiz quiz = new Quiz(topic, null);
+        Quiz quiz = new Quiz(topic, List.of(new Question()));
         return quiz;
     }
 
     public static List<AnswerOption> createDefaultAnswerOptions() {
         return List.of(
-                new AnswerOption("Yes", false),
-                new AnswerOption("No", false),
-                new AnswerOption("Maybe", false),
-                new AnswerOption("I don´t know", true)
+                new AnswerOption("Yes", 0),
+                new AnswerOption("No", 0),
+                new AnswerOption("Maybe", 0),
+                new AnswerOption("I don´t know", 1)
         );
     }
 
-    public static List<AnswerOptionCreationDTO> createDefaultAnswerOptionDTOList() {
+    public static List<AnswerOptionDTO> createDefaultAnswerOptionDTOList() {
         return List.of(
-                new AnswerOptionCreationDTO("Yes", false),
-                new AnswerOptionCreationDTO("No", false),
-                new AnswerOptionCreationDTO("Maybe", false),
-                new AnswerOptionCreationDTO("I don´t know", true)
+                new AnswerOptionDTO("Yes", 0),
+                new AnswerOptionDTO("No", 0),
+                new AnswerOptionDTO("Maybe", 0),
+                new AnswerOptionDTO("I don´t know", 1)
         );
     }
 
     // QUIZ DTO CREATION
 
 
-    public static QuizCreationDTO createQuizCreationDTOWithTopicAndQuestions(String topic, List<QuestionCreationDTO> questions) {
-        return new QuizCreationDTO(topic, questions);
+    public static QuizDTO createQuizCreationDTOWithTopicAndQuestions(String topic, List<QuestionDTO> questions) {
+        return new QuizDTO(topic, questions);
     }
 
-    public static QuizCreationDTO createDefaultQuizCreationDTO() {
+    public static QuizDTO createDefaultQuizCreationDTO() {
         return createQuizCreationDTOWithTopicAndQuestions("Default topic", null);
     }
 
-    public static QuizCreationDTO createQuizCreationDTOWithQuestions() {
-        QuestionCreationDTO question1 = new QuestionCreationDTO("What is the capital of Sweden?", 1, 1, createDefaultAnswerOptionDTOList());
-        QuestionCreationDTO question2 = new QuestionCreationDTO("What is the square root of 121?", 1, 1, createDefaultAnswerOptionDTOList());
+    public static QuizDTO createQuizCreationDTOWithQuestions() {
+        QuestionDTO question1 = new QuestionDTO("What is the capital of Sweden?", 1, 1, createDefaultAnswerOptionDTOList());
+        QuestionDTO question2 = new QuestionDTO("What is the square root of 121?", 1, 1, createDefaultAnswerOptionDTOList());
 
-        return new QuizCreationDTO("Quiz with questions", Arrays.asList(question1, question2));
+        return new QuizDTO("Quiz with questions", Arrays.asList(question1, question2));
     }
 }

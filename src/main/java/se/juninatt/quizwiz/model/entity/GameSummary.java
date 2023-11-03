@@ -13,9 +13,13 @@ public class GameSummary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column(name = "total_score")
     private int totalScore;
+    @Column(name = "time_used_percentage")
     private int timeUsedPercentage;
+    @Column(name = "completion_percentage")
     private int completionPercentage;
+    @Column(name = "date")
     private String date;
 
     // Constructors

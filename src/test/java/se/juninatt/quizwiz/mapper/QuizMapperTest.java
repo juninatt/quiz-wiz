@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import se.juninatt.quizwiz.TestUtl.TestObjectFactory;
-import se.juninatt.quizwiz.model.dto.QuizCreationDTO;
+import se.juninatt.quizwiz.model.dto.QuizDTO;
 import se.juninatt.quizwiz.model.entity.Quiz;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -15,7 +15,7 @@ public class QuizMapperTest {
 
     @Test
     void mapFromQuizCreationDTOToQuiz() {
-        QuizCreationDTO quizDTO = TestObjectFactory.createDefaultQuizCreationDTO();
+        QuizDTO quizDTO = TestObjectFactory.createDefaultQuizCreationDTO();
         Quiz result = QuizMapper.INSTANCE.dtoToEntity(quizDTO);
 
         assertThat(result.getTopic()).isEqualTo(quizDTO.topic());

@@ -9,9 +9,9 @@ import javax.validation.constraints.*;
 import java.util.List;
 
 /**
- * Data Transfer Object for creating .a {@link Quiz}
+ * Data Transfer Object for handling the content of a {@link Quiz}
  */
-public record QuestionCreationDTO(
+public record QuestionDTO(
         @NotBlank(message = "Question cannot be blank.")
         @Size(min = 1, max = 255, message = "Question must be between 1 and 255 characters.")
         String questionText,
@@ -27,4 +27,5 @@ public record QuestionCreationDTO(
         @Valid
         @FixedSize(expectedSize= 4, message = "There must be exactly 4 answer options.")
         @SingleCorrectAnswer(message = "Answer options must have exactly 1 correct option")
-        List<AnswerOptionCreationDTO> answerOptions) {}
+        List<AnswerOptionDTO> answerOptions
+) {}
