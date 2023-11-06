@@ -18,26 +18,26 @@
   </div>
 
   <div id="table-container">
-  <table>
-    <thead>
-    <tr>
-      <td data-label="Topic">Topic</td>
-      <td data-label="Total Score">Total Score</td>
-      <td data-label="Total Time">Total Time</td>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="quiz : ${quizzes.quizzes}">
-      <td th:text="${quiz.topic}"></td>
-      <td th:text="${quiz.totalTime}"></td>
-      <td th:text="${quiz.totalScore}"></td>
-    </tr>
-    <!-- Add more rows as needed -->
-    </tbody>
-  </table>
-</div>
+    <table>
+      <thead>
+      <tr>
+        <td data-label="Topic">Topic</td>
+        <td data-label="Total Score">Total Score</td>
+        <td data-label="Total Time">Total Time</td>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="quiz : ${quizzes.quizzes}" th:data-id="${quiz.id}" class="clickable-row">
+        <td th:text="${quiz.topic}"></td>
+        <td th:text="${quiz.totalScore}"></td> <!-- Swapped totalTime with totalScore -->
+        <td th:text="${quiz.totalTime}"></td>
+      </tr>
+      <!-- Add more rows as needed -->
+      </tbody>
+    </table>
+  </div>
 </div>
 <script th:src="@{/js/main-menu.js}" defer></script>
-<script th:src="@{/js/menu-pages/play-quiz-page.js}" defer></script>
+<script th:src="@{/js/menu-pages/quiz-selection-page.js}" defer></script>
 </body>
 </html>

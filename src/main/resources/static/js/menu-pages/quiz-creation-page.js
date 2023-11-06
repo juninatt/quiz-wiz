@@ -186,8 +186,7 @@ function sendQuizToBackend() {
     points: q.points,
     answerOptions: q.options.map((option, index) => ({
       optionText: option,
-      // Use integers instead of booleans
-      isCorrectAnswer: (q.correctOption === index + 1) ? 1 : 0  // Use integers 1 or 0
+      isCorrectAnswer: (q.correctOption === index + 1) ? 1 : 0
     }))
   }));
 
@@ -205,7 +204,7 @@ function sendQuizToBackend() {
   })
   .then(response => response.text())
   .then(data => {
-    window.location.href = '/quizwiz';
+    window.location.href = '/quiz-wiz';
     console.log('Success:', data);
   })
   .catch(error => {

@@ -48,8 +48,16 @@ public interface QuizMapper {
     /**
      * Converts a {@link Quiz} entity to a {@link QuizDTO}.
      *
-     * @param quizEntity the entity containing quiz data.
-     * @return a QuizDTO corresponding to the provided entity.
+     * @param quizEntity The entity containing quiz data.
+     * @return A QuizDTO corresponding to the provided entity.
      */
     QuizDTO entityToDTO(Quiz quizEntity);
+
+    /**
+     * Converts a {@link Question} entity to a {@link QuestionDTO}.
+     *
+     * @param questionEntity  The entity containing question data.
+     * @return A QuestionDTO corresponding to the provided entity.
+     */
+    QuestionDTO entityToDTO(Question questionEntity);
 }

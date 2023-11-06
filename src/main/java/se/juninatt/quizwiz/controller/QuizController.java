@@ -7,10 +7,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import se.juninatt.quizwiz.mapper.QuizMapper;
+import se.juninatt.quizwiz.model.dto.QuestionDTO;
 import se.juninatt.quizwiz.model.dto.QuizDTO;
 import se.juninatt.quizwiz.model.dto.QuizSummaryListDTO;
+import se.juninatt.quizwiz.model.entity.GameSummary;
+import se.juninatt.quizwiz.model.entity.Question;
 import se.juninatt.quizwiz.model.entity.Quiz;
 import se.juninatt.quizwiz.service.QuizService;
 
@@ -35,7 +40,7 @@ public class QuizController {
      */
     @GetMapping("/quiz-wiz")
     public String showWelcomePage(Model model) {
-        logger.info("Showing welcome page.");
+        logger.info("Received request to open welcome page");
 
         model.addAttribute("message", "Welcome to the Quiz Portal. Choose from various quizzes or create your own!");
 
@@ -50,7 +55,7 @@ public class QuizController {
      */
     @GetMapping("/quiz-creation")
     public String showCreateQuizPage(Model model) {
-        logger.info("Loading 'create-quiz-page'.");
+        logger.info("Received request to open quiz-creation page");
 
         model.addAttribute("page_title", "Create Your Own Quiz");
 
@@ -65,7 +70,7 @@ public class QuizController {
      */
     @GetMapping("/quiz-selection")
     public String showPlayQuizPage(Model model) {
-        logger.info("Showing view quizzes page");
+        logger.info("Received request to show quiz selection");
         QuizSummaryListDTO quizSummaries = quizService.getQuizSummaryList();
 
         model.addAttribute("quizzes", quizSummaries);
@@ -83,9 +88,44 @@ public class QuizController {
      */
     @PostMapping("/create-quiz")
     public ResponseEntity<String> createQuiz(@RequestBody QuizDTO quizContent) {
-        logger.info("Received quiz submission, loading 'create-quiz-page'.");
+        logger.info("Received request to create new quiz " + quizContent);
         quizService.createQuiz(quizContent);
 
         return ResponseEntity.ok("Quiz successfully created");
+    }
+
+    /**
+     * Starts a new quiz game for the given quiz ID and prepares the view.
+     *
+     * @param quizId the ID of the quiz to start.
+     * @param model the {@link Model} to hold attributes for the view template.
+     * @return the name of the template to render the quiz game.
+     */
+    @GetMapping("/start-quiz/{quizId}")
+    public String startQuizGame(@PathVariable long quizId, Model model) {
+        logger.info("Received request to start quiz:" +quizId);
+        model.addAttribute("quizId", quizId);
+        return "quiz-game";
+    }
+
+    /**
+     * Fetches the next question from the quiz corresponding to the given indices.
+     *
+     * @param quizId        the ID of the quiz.
+     * @param questionIndex the index of the question within the quiz.
+     * @return a {@link ResponseEntity} containing the question DTO or an error message.
+     */
+    @GetMapping("/next-question/{quizId}/question/{questionIndex}")
+    public ResponseEntity<?> getQuestionFromQuiz(@PathVariable long quizId, @PathVariable int questionIndex) {
+        logger.info("Received request for next question");
+        Question question = quizService.getQuestionFromQuiz(questionIndex, quizId);
+        QuestionDTO questionContent = QuizMapper.INSTANCE.entityToDTO(question);
+
+        return ResponseEntity.ok(questionContent);
+    }
+
+    @PostMapping("submit-quiz")
+    public void submitQuiz(@RequestBody GameSummary gameSummary) {
+
     }
 }

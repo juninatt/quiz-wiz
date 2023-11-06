@@ -1,5 +1,6 @@
 package se.juninatt.quizwiz.service;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,8 @@ import se.juninatt.quizwiz.model.entity.Quiz;
 import se.juninatt.quizwiz.repository.QuestionRepository;
 import se.juninatt.quizwiz.repository.QuizRepository;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
@@ -27,6 +30,47 @@ public class QuizServiceTest extends TestDatabaseImplementation {
     private QuizRepository quizRepository;
     @Autowired
     private QuestionRepository questionRepository;
+
+    @AfterEach
+    void cleanUp() {
+        questionRepository.deleteAll();
+        questionRepository.deleteAll();
+    }
+
+    @Nested
+    @DisplayName("Tests for method: getAllQuizzes()")
+    class GetAllQuizzesTest {
+
+        @Test
+        @DisplayName("Successfully retrieves all quizzes when there are multiple quizzes")
+        void testGetAllQuizzes_WithMultipleQuizzes() {
+            // Arrange - Add multiple quizzes
+            Quiz quiz1 = TestObjectFactory.createQuizWithTopic("Topic One");
+            Quiz quiz2 = TestObjectFactory.createQuizWithTopic("Topic Two");
+            quizRepository.save(quiz1);
+            quizRepository.save(quiz2);
+
+            // Act
+            List<Quiz> allQuizzes = quizService.getAllQuizzes();
+
+            // Assert
+            assertThat(allQuizzes).isNotNull();
+            assertThat(allQuizzes).hasSize(2);
+            assertThat(allQuizzes).contains(quiz1, quiz2);
+        }
+
+        @Test
+        @DisplayName("Successfully retrieves an empty list when there are no quizzes")
+        void testGetAllQuizzes_EmptyRepository() {
+            // Act
+            List<Quiz> allQuizzes = quizService.getAllQuizzes();
+
+            // Assert
+            assertThat(allQuizzes).isNotNull();
+            assertThat(allQuizzes).isEmpty();
+        }
+
+    }
 
 
     @Nested

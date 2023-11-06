@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>Quiz Game</title>
+  <link rel="stylesheet" th:href="@{/css/global.css}" />
+  <link rel="stylesheet" th:href="@{/css/quiz-game.css}" />
+</head>
+
+<body>
+
+
+<div id="outer-container">
+
+  <div id="quiz-container" th:data-quiz-id="${quizId}">
+  <div id="page-title">
+    <h1>Quiz Topic</h1>
+  </div>
+
+  <div id="question">
+    <h2 id="question-text">Please wait while the question loads...</h2>
+  </div>
+
+  <div id="options" class="options-grid">
+    <!-- Options will be populated by JavaScript -->
+  </div>
+    <!-- Button to load next question -->
+    <button id="next-question-button" style="display: none;">Next Question</button>
+
+  </div>
+</div>
+
+<script th:src="@{/js/quiz-game.js}" defer></script>
+
+</body>
+</html>

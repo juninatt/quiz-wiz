@@ -42,6 +42,11 @@ public class QuizService {
     }
 
 
+    public List<Quiz> getAllQuizzes() {
+        return quizRepository.findAll();
+    }
+
+
     /**
      * Retrieves a {@link Quiz} based on its topic.
      *
@@ -99,6 +104,22 @@ public class QuizService {
     }
 
     /**
+     * Retrieves a {@link Question} from a specific {@link Quiz} based on the question index.
+     *
+     * @param questionIndex The index of the question within the quiz.
+     * @param quizId The ID of the quiz from which the question is to be retrieved.
+     * @return The Question entity corresponding to the question index within the specified quiz.
+     * @throws IndexOutOfBoundsException if the question index is out of range (index < 0 || index >= size()).
+     */
+    public Question getQuestionFromQuiz(int questionIndex, long quizId) {
+        List<Question> quizQuestions = questionRepository.findByQuizId(quizId);
+        return quizQuestions.get(questionIndex);
+    }
+
+
+    //           <-- PRIVATE METHODS -->
+
+    /**
      * Creates a {@link QuizSummaryDTO} for a given {@link Quiz}.
      *
      * @param quiz The quiz entity to summarize.
@@ -147,9 +168,5 @@ public class QuizService {
         return questions.stream()
                 .mapToInt(Question::getTimeLimit)
                 .sum();
-    }
-
-    public List<Quiz> getAllQuizzes() {
-        return quizRepository.findAll();
     }
 }
