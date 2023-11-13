@@ -19,6 +19,9 @@ import se.juninatt.quizwiz.model.entity.Question;
 import se.juninatt.quizwiz.model.entity.Quiz;
 import se.juninatt.quizwiz.service.QuizService;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * The QuizController class handles all web requests for creating, managing,
  * and playing quizzes.
@@ -104,7 +107,9 @@ public class QuizController {
     @GetMapping("/start-quiz/{quizId}")
     public String startQuizGame(@PathVariable long quizId, Model model) {
         logger.info("Received request to start quiz:" +quizId);
+
         model.addAttribute("quizId", quizId);
+
         return "quiz-game";
     }
 
@@ -118,14 +123,31 @@ public class QuizController {
     @GetMapping("/next-question/{quizId}/question/{questionIndex}")
     public ResponseEntity<?> getQuestionFromQuiz(@PathVariable long quizId, @PathVariable int questionIndex) {
         logger.info("Received request for next question");
+
         Question question = quizService.getQuestionFromQuiz(questionIndex, quizId);
         QuestionDTO questionContent = QuizMapper.INSTANCE.entityToDTO(question);
 
         return ResponseEntity.ok(questionContent);
     }
 
-    @PostMapping("submit-quiz")
-    public void submitQuiz(@RequestBody GameSummary gameSummary) {
+    /**
+     * Processes a quiz submission. Accepts a quiz ID and a {@link GameSummary} object, logs the submission,
+     * and returns a response with the player's score.
+     *
+     * @param quizId       the ID of the submitted quiz
+     * @param gameSummary  the summary of the player's performance
+     * @return a {@link ResponseEntity} with submission confirmation and score
+     */
+    @PostMapping("/submit-quiz/{quizId}")
+    public ResponseEntity<?> submitQuiz(@PathVariable long quizId, @RequestBody GameSummary gameSummary) {
+        logger.info("Quiz submission received: " + gameSummary);
+        Map<String, Object> response = new HashMap<>();
 
+        gameSummary.setQuiz(quizService.getQuizById(quizId));
+
+        response.put("message", "Quiz submission received");
+        response.put("score", gameSummary.getTotalScore());
+
+        return ResponseEntity.ok(response);
     }
 }

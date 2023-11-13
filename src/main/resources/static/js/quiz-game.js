@@ -1,5 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const quizContainer = document.getElementById('quiz-container');
+const quizContainer = document.getElementById('quiz-container');
   const quizId = quizContainer.getAttribute('data-quiz-id');
   let currentQuestionIndex = 0;
   let correctAnswersCount = 0;
@@ -55,28 +54,31 @@ console.log('Option selected')
     optionElement.classList.add('incorrect');
   }
 
-   // Apply green border to the correct option if not chosen
+  // Apply green border to the correct option if not chosen
   const correctOption = Array.from(allOptions).find(option => option.dataset.isCorrect === '1');
   if (correctOption) {
     correctOption.classList.add('correct');
   }
   currentQuestionIndex++;
 
-  if (currentQuestionIndex ==  6) {
-    submitQuizResults();
+  if (currentQuestionIndex ==  5) {
+    console.log('Quiz is complete, ready to submit');
+    nextQuestionButton.textContent = 'Finish';
+    nextQuestionButton.removeEventListener('click', handleNextQuestionClick);
+    nextQuestionButton.addEventListener('click', submitQuizResults);
   }
-  // Show the 'Next Question' button
-    nextQuestionButton.style.display = 'block';
-
     nextQuestionButton.style.display = 'block';
 }
 
-// Initializes
+function handleNextQuestionClick() {
+  loadQuestionData(currentQuestionIndex);
+}
+
 function initializeNextQuestionButton() {
     nextQuestionButton = document.createElement('button');
     nextQuestionButton.id = 'next-question-button';
     nextQuestionButton.textContent = 'Next Question';
-    nextQuestionButton.addEventListener('click', () => loadQuestionData(currentQuestionIndex));
+    nextQuestionButton.addEventListener('click', handleNextQuestionClick);
     document.getElementById('quiz-container').appendChild(nextQuestionButton);
 }
 
@@ -85,7 +87,6 @@ function initializeNextQuestionButton() {
 
     nextQuestionButton.style.display = 'none';
 
-    // Placeholder URL - update with the actual URL to fetch question data
     fetch(`/next-question/${quizId}/question/${questionIndex}`)
       .then(response => {
         if (!response.ok) {
@@ -98,40 +99,96 @@ function initializeNextQuestionButton() {
       })
       .catch(error => {
         console.error('Could not fetch the question:', error.message);
-        // Implement a user-friendly way to display this error, like an alert or a message in the DOM.
       });
   }
 
 
-  function submitQuizResults() {
-    fetch(`/submit-quiz/${quizId}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ correctAnswers: correctAnswersCount })
-    })
-    .then(handleResultsResponse)
-    .catch(error => {
-      console.error('Failed to submit the quiz results:', error.message);
-      // Implement a user-friendly way to display this error
-    });
-  }
+function submitQuizResults() {
+  console.log('Submitting quiz results');
+  fetch(`/submit-quiz/${quizId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ correctAnswers: correctAnswersCount })
+  })
+  .then(response => response.json())
+  .then(data => {
+    showPopup(data);
+  })
+  .catch(error => {
+    console.error('Failed to submit the quiz results:', error.message);
+  });
+}
 
-  function handleResultsResponse(response) {
+function showPopup(quizData) {
+  const popupBackground = document.createElement('div');
+  popupBackground.className = 'popup-background';
+
+  const popup = document.createElement('div');
+  popup.className = 'popup';
+  popup.innerHTML = `
+    <h2>Great job, ${quizData.score}!</h2>
+    <p>Enter your name to save your score:</p>
+    <input type="text" id="username" placeholder="Your Name">
+    <button onclick="saveScore()">Save Score</button>
+    <button onclick="closePopup()">Close</button>
+  `;
+
+  popupBackground.appendChild(popup);
+  document.body.appendChild(popupBackground);
+}
+
+function saveScore() {
+  const quizId = quizContainer.getAttribute('data-quiz-id');
+  const totalQuestions = 5;
+
+  const totalScorePercentage = Math.round((correctAnswersCount / totalQuestions) * 100);
+  const currentDate = new Date().toISOString().split('T')[0];
+  const playerName = document.getElementById('username').value;
+
+  const payload = {
+    player: playerName,
+    totalScore: totalScorePercentage,
+    timeUsedPercentage: null,
+    completionPercentage: null,
+    date: currentDate,
+    quiz: { id: quizId }
+  };
+  const endpoint = `/submit-quiz/${quizId}`;
+
+  fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload)
+  })
+  .then(response => {
     if (!response.ok) {
       throw new Error(`HTTP status ${response.status}`);
     }
-    return response.json().then(resultData => {
-      // Handle the response data
-      // For example, show a message to the user with their score
-    });
+    return response.json();
+  })
+  .then(data => {
+    console.log('Score saved successfully:', data);
+  })
+  .catch(error => {
+    console.error('Error saving the score:', error.message);
+  });
+}
+
+function closePopup() {
+  const popupBackground = document.querySelector('.popup-background');
+  if (popupBackground) {
+    document.body.style.overflow = ''; // Enable body scrolling
+    popupBackground.remove();
   }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
 
   initializeNextQuestionButton();
-  // Load the initial question data from the server
   loadQuestionData(currentQuestionIndex);
-
-
 
 });

@@ -169,4 +169,9 @@ public class QuizService {
                 .mapToInt(Question::getTimeLimit)
                 .sum();
     }
+
+    public Quiz getQuizById(long quizId) {
+        return quizRepository.findById(quizId)
+                .orElseThrow();
+    }
 }

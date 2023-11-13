@@ -26,19 +26,19 @@ public class TestObjectFactory {
      * @return A default GameSummary object.
      */
     public static GameSummary createDefaultGameSummary() {
-        return new GameSummary(100, 75, 90, "2023-10-19");
+        return new GameSummary("Sigmund", 100, 75, 90, "2023-10-19");
     }
 
     public static GameSummary createGameSummaryWithTimeUsedPercentage(int timeUsedPercentage) {
-        return new GameSummary(100, timeUsedPercentage, 90, "2023-10-19");
+        return new GameSummary("Göran", 100, timeUsedPercentage, 90, "2023-10-19");
     }
 
     public static GameSummary createGameSummaryWithCompletionPercentage(int completionPercentage) {
-        return new GameSummary(100, 50, completionPercentage, "2023-10-19");
+        return new GameSummary("Karen", 100, 50, completionPercentage, "2023-10-19");
     }
 
     public static GameSummary createGameSummaryWithTotalScore(int totalScore) {
-        return new GameSummary(totalScore, 50, 90, "2023-10-19");
+        return new GameSummary("Safari", totalScore, 50, 90, "2023-10-19");
     }
 
     // QUESTION OBJECT CREATION

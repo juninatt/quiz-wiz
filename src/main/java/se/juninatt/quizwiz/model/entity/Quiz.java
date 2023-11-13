@@ -20,6 +20,9 @@ public class Quiz {
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Question> questions;
 
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<GameSummary> gameSummaries;
+
     // Constructors
 
     public Quiz() {}
@@ -55,6 +58,15 @@ public class Quiz {
         this.questions = questions;
         questions.forEach(question -> question.setQuiz(this));
     }
+
+    public List<GameSummary> getGameSummaries() {
+        return gameSummaries;
+    }
+
+    public void setGameSummaries(List<GameSummary> gameSummaries) {
+        this.gameSummaries = gameSummaries;
+    }
+
 
     // Hashcode, equals and toString
 

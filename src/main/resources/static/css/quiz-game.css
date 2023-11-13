@@ -4,7 +4,6 @@ body {
   color: #333;
   line-height: 1.6;
   margin: 0;
-  display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh; /* Full viewport height */
@@ -83,6 +82,32 @@ body {
   display: block;
   margin: 20px auto;
 }
+
+.popup-background {
+  position: fixed; /* Stay in place */
+  top: 0;
+  left: 0;
+  width: 100vw; /* Full viewport width */
+  height: 100vh; /* Full viewport height */
+  background-color: rgba(0, 0, 0, 0.5); /* Black with opacity */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Sit on top */
+}
+
+.popup {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  z-index: 1001; /* Above the semi-transparent background */
+  width: auto;
+  max-width: 600px; /* Or any max-width you prefer */
+  margin: 15px; /* To avoid touching the viewport edges */
+}
+
+
 
 
 /* RESPONSIVE ADJUSTMENTS */

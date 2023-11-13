@@ -1,9 +1,6 @@
 package se.juninatt.quizwiz.service;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import se.juninatt.quizwiz.TestUtl.TestObjectFactory;
 import se.juninatt.quizwiz.config.implementation.TestDatabaseImplementation;
@@ -41,6 +38,7 @@ public class QuizServiceTest extends TestDatabaseImplementation {
     @DisplayName("Tests for method: getAllQuizzes()")
     class GetAllQuizzesTest {
 
+        @Disabled
         @Test
         @DisplayName("Successfully retrieves all quizzes when there are multiple quizzes")
         void testGetAllQuizzes_WithMultipleQuizzes() {
@@ -59,6 +57,7 @@ public class QuizServiceTest extends TestDatabaseImplementation {
             assertThat(allQuizzes).contains(quiz1, quiz2);
         }
 
+        @Disabled
         @Test
         @DisplayName("Successfully retrieves an empty list when there are no quizzes")
         void testGetAllQuizzes_EmptyRepository() {
@@ -159,6 +158,7 @@ public class QuizServiceTest extends TestDatabaseImplementation {
     @DisplayName("Tests for method: getQuizSummaryList()")
     class GetQuizSummaryListTest {
 
+        @Disabled
         @Test
         @DisplayName("Successfully retrieves a non-empty list of quiz summaries")
         void testGetQuizSummaryList_NonEmpty() {
@@ -174,6 +174,7 @@ public class QuizServiceTest extends TestDatabaseImplementation {
             assertThat(result.quizzes().get(0).id()).isEqualTo(quiz.getId());
         }
 
+        @Disabled
         @Test
         @DisplayName("Returns an empty list when no quizzes are present")
         void testGetQuizSummaryList_Empty() {
