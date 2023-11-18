@@ -62,7 +62,7 @@ public class QuizController {
 
         model.addAttribute("page_title", "Create Your Own Quiz");
 
-        return "menu-pages/create-quiz-page";
+        return "menu-pages/quiz-creation-page";
     }
 
     /**
@@ -106,9 +106,10 @@ public class QuizController {
      */
     @GetMapping("/start-quiz/{quizId}")
     public String startQuizGame(@PathVariable long quizId, Model model) {
-        logger.info("Received request to start quiz:" +quizId);
+        logger.info("Received request to start quiz:" + quizId);
 
         model.addAttribute("quizId", quizId);
+        model.addAttribute("topic", quizService.getQuizById(quizId).getTopic());
 
         return "quiz-game";
     }

@@ -4,7 +4,7 @@
   <!-- Setting the title and linking the CSS stylesheets -->
   <title>Create Your Quiz</title>
   <link rel="stylesheet" th:href="@{/css/global.css}" />
-  <link rel="stylesheet" th:href="@{/css/quiz-creation-page.css}" />
+  <link rel="stylesheet" th:href="@{/css/menu-pages/quiz-creation-page.css}" />
 </head>
 <body class="create-quiz-page">
 
@@ -12,8 +12,8 @@
 <div th:insert="~{menu}"></div>
 
 <!-- Main Content -->
-<div id="main-content">
-  <h1 th:text="${page_title}">Placeholder Title</h1>
+<div class="container">
+  <h1 class="main-title page-title" th:text="${page_title}">Placeholder Title</h1>
   <div id="form-container">
     <!-- Dynamically loaded content -->
   </div>

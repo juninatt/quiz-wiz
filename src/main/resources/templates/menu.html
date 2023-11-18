@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<div id="menu">  <!-- Notice the div with id 'menu' -->
-    <ul>
-        <li><a href="#" class="menu-button" id="welcome-page-button">Welcome Page</a></li>
-        <li><a href="#" class="menu-button" id="play-quiz-button">Play Quiz</a></li>
-        <li><a href="#" class="menu-button" id="create-quiz-button">Create Your Own Quiz</a></li>
-        <li><a href="#" class="menu-button" id="leaderboard-button">Leaderboard</a></li>
-    </ul>
+<div class="menu">
+    <!-- Main Menu -->
+    <ol>
+        <li class="menu-button" id="welcome-page-button">Welcome Page</li>
+        <li class="menu-button" id="play-quiz-button">Play Quiz</li>
+        <li class="menu-button" id="create-quiz-button">Create Your Own Quiz</li>
+        <li class="menu-button" id="leaderboard-button">Leaderboard</li>
+    </ol>
 </div>
 <script th:src="@{/js/main-menu.js}" defer></script>
 </html>

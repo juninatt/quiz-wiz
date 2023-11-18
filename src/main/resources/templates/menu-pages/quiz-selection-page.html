@@ -1,43 +1,52 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-  <title>Quiz</title>
-  <link rel="stylesheet" th:href="@{/css/global.css}" />
-  <link rel="stylesheet" th:href="@{/css/quiz-selection-page.css}" />
+    <title>Quiz Selection</title>
+    <link rel="stylesheet" th:href="@{/css/global.css}" />
+    <link rel="stylesheet" th:href="@{/css/menu-pages/quiz-selection-page.css}" />
 </head>
+
 <body>
+<!-- Loading Indicator -->
 <div id="loading">Loading...</div>
+
 <!-- Sidebar Menu -->
 <div id="menu" th:insert="~{menu}"></div>
 
-<!-- Main Content -->
-<div id="main-content">
-  <div id="page-title">
-    <h1 th:text="${pageTitle}"></h1>
-    <h2 th:text="${subTitle}"></h2>
-  </div>
+<!-- Main Container -->
+<div class="container">
+    <!-- Page Titles -->
+    <h1 class="main-title page-title" th:text="${pageTitle}"></h1>
+    <h2 class="main-title page-title page-sub-title" th:text="${subTitle}"></h2>
 
-  <div id="table-container">
-    <table>
-      <thead>
-      <tr>
-        <td data-label="Topic">Topic</td>
-        <td data-label="Total Score">Total Score</td>
-        <td data-label="Total Time">Total Time</td>
-      </tr>
-      </thead>
-      <tbody>
-      <tr th:each="quiz : ${quizzes.quizzes}" th:data-id="${quiz.id}" class="clickable-row">
-        <td th:text="${quiz.topic}"></td>
-        <td th:text="${quiz.totalScore}"></td> <!-- Swapped totalTime with totalScore -->
-        <td th:text="${quiz.totalTime}"></td>
-      </tr>
-      <!-- Add more rows as needed -->
-      </tbody>
-    </table>
-  </div>
+    <!-- Table Container -->
+    <div class="table-container">
+        <table>
+            <!-- Table Header -->
+            <thead>
+            <tr>
+                <td data-label="Topic">Topic</td>
+                <td data-label="Total Score">Total Score</td>
+                <td data-label="Total Time">Total Time</td>
+            </tr>
+            </thead>
+
+            <!-- Table Body -->
+            <tbody>
+            <tr th:each="quiz : ${quizzes.quizzes}" th:data-id="${quiz.id}" class="clickable-row">
+                <td th:text="${quiz.topic}"></td>
+                <td th:text="${quiz.totalScore}"></td>
+                <td th:text="${quiz.totalTime}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
+
+<!-- Scripts -->
 <script th:src="@{/js/main-menu.js}" defer></script>
 <script th:src="@{/js/menu-pages/quiz-selection-page.js}" defer></script>
 </body>
+
 </html>

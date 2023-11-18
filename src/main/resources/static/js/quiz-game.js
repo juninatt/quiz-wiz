@@ -131,8 +131,8 @@ function showPopup(quizData) {
     <h2>Great job, ${quizData.score}!</h2>
     <p>Enter your name to save your score:</p>
     <input type="text" id="username" placeholder="Your Name">
-    <button onclick="saveScore()">Save Score</button>
-    <button onclick="closePopup()">Close</button>
+    <button class="quiz-game-button" onclick="saveScore()">Save Score</button>
+    <button class="quiz-game-button" onclick="closePopup()">Close</button>
   `;
 
   popupBackground.appendChild(popup);

@@ -9,28 +9,35 @@
 
 <body>
 
+<!-- Main Container -->
+<div class="outer-container">
 
-<div id="outer-container">
+  <!-- Quiz Container -->
+  <div id="quiz-container" class="inner-container" th:data-quiz-id="${quizId}">
 
-  <div id="quiz-container" th:data-quiz-id="${quizId}">
-  <div id="page-title">
-    <h1>Quiz Topic</h1>
-  </div>
+    <!-- Page Title -->
+    <div id="page-title">
+      <h1 th:text="${topic}">Placeholder Title</h1>
+    </div>
 
-  <div id="question">
-    <h2 id="question-text">Please wait while the question loads...</h2>
-  </div>
+    <!-- Question Section -->
+    <div id="question">
+      <h2 id="question-text">Please wait while the question loads...</h2>
+    </div>
 
-  <div id="options" class="options-grid">
-    <!-- Options will be populated by JavaScript -->
-  </div>
-    <!-- Button to load next question -->
-    <button id="next-question-button" style="display: none;">Next Question</button>
+    <!-- Options Grid -->
+    <div id="options" class="options-grid">
+      <!-- Options will be populated by JavaScript -->
+    </div>
+
+    <button id="next-question-button" class="quiz-game-button" style="display: none;">Next Question</button>
 
   </div>
 </div>
 
+<!-- Scripts -->
 <script th:src="@{/js/quiz-game.js}" defer></script>
 
 </body>
+
 </html>

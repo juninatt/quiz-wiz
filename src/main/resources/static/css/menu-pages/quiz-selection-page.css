@@ -1,0 +1,95 @@
+/*   MENU   */
+.menu {
+  color: white;
+  background-color: #FFA500;
+}
+
+.menu-button {
+  background-color: #FFD700;
+  border-color: #8B4000;
+  color: #8B4000;
+}
+.menu-button:hover {
+  background-color: #FFB14E;
+}
+
+
+/*   MAIN CONTENT   */
+.page-title {
+  color: #FFA500;
+}
+
+.page-sub-title {
+  font-size: 2em;
+}
+
+
+/*   TABLE   */
+.table-container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.table-container table {
+  width: 100%;
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+
+.table-container thead {
+  background-color: #4a4a4a;
+  color: white;
+}
+
+.table-container th,
+.table-container td {
+  padding: 1rem;
+  border: 2px solid #FFA500; /* Orange frame */
+  text-align: left;
+}
+
+.table-container tbody tr:nth-child(odd) {
+  background-color: #f2f2f2;
+}
+
+.table-container tbody tr:hover {
+  background-color: #ddd;
+}
+
+w
+/* Responsive table adjustments for smaller screens */
+@media screen and (max-width: 600px) {
+  .table-container {
+    width: 100%;
+    margin: 0;
+  }
+
+  .table-container table,
+  .table-container thead,
+  .table-container tbody,
+  .table-container th,
+  .table-container td,
+  .table-container tr {
+    display: block;
+  }
+
+  .table-container thead {
+    display: none;
+  }
+
+  .table-container td {
+    position: relative;
+    padding-left: 50%;
+  }
+
+  .table-container td:before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50%;
+    padding-left: 10px;
+    white-space: nowrap;
+    background-color: #f0f0f0;
+  }
+}

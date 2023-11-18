@@ -2,27 +2,31 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Quiz</title>
+    <title>Quiz Wiz</title>
     <link rel="stylesheet" th:href="@{/css/global.css}" />
-    <link rel="stylesheet" th:href="@{/css/welcome-page.css}" />
+    <link rel="stylesheet" th:href="@{/css/menu-pages/welcome-page.css}" />
 </head>
 
 <body>
+<!-- Loading Indicator -->
 <div id="loading">Loading...</div>
+
 <!-- Sidebar Menu -->
 <div th:insert="~{menu}"></div>
 
-<div id="main-content">
-    <div id="welcome-box-title">
-        <h2>Quiz Wiz</h2>
-    </div>
+<!-- Main Content -->
+<div class="container">
+    <h1 class="main-title page-title">Quiz Wiz</h1>
 
-    <div id="welcome-box">
-        <p th:text="${message}">Placeholder Title</p>
+    <div class="inner-container">
+        <div class="welcome-box">
+            <p th:text="${message}">Placeholder Title</p>
+        </div>
     </div>
-
-    <script th:src="@{/js/main-menu.js}" defer></script>
-    <script th:src="@{/js/welcome-page.js}" defer></script>
 </div>
+
+<script th:src="@{/js/main-menu.js}" defer></script>
+<script th:src="@{/js/welcome-page.js}" defer></script>
+
 </body>
 </html>

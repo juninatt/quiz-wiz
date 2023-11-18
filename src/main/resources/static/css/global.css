@@ -1,31 +1,53 @@
-/* Global body styling */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
+.main-title {
+    font-size: 4rem;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    text-shadow: 0.2rem 0.2rem 0.2rem #aaa;
+    text-align: center;
 }
 
-.welcome-text {
-    font-size: 36px;
-    text-align: center;
-    margin-bottom: 20px;
+.body {
+    font-family: Arial, sans-serif;
 }
 
 .container {
-  display: flex;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 80vw;
+    height: 80vh;
+    max-width: 45rem;
+    max-height: 45rem;
+}
+
+.menu {
+    width: 12.5rem;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 0.9375rem;
+}
+
+.menu-button {
+    margin-bottom: 0.9375rem;
+    list-style: none;
+    display: block;
+    padding: 0.625rem;
+    border: 2px solid;
+    text-decoration: none;
 }
 
 
 /* For larger screens */
-@media (min-width: 769px) {
-  #main-content {
-    padding-left: 220px;  /* Width of #menu (200px) + its padding (15px on each side) */
-  }
+@media (min-width: 48.0625rem) {
+    #main-content {
+        padding-left: 13.75rem;
+    }
 }
 
 /* For smaller screens */
-@media (max-width: 768px) {
-  #main-content {
-    padding-left: 0;  /* Resetting padding to 0 for smaller screens */
-  }
+@media (max-width: 48rem) {
+    #main-content {
+        padding-left: 0;
+    }
 }

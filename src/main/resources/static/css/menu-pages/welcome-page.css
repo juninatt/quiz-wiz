@@ -1,0 +1,33 @@
+.menu {
+  color: white;
+  background-color: #003366;  /* Dark blue background */
+}
+
+.menu-button {
+  background-color: #006699;  /* Lighter blue for buttons */
+}
+.menu-button:hover {
+  background-color: #004d66;
+}
+
+.page-title {
+  font-size: 4em;
+  color: #0099cc;  /* Teal-colored title */
+}
+
+.inner-container {
+  width: 300px;
+  margin: auto;
+}
+
+.welcome-box {
+  background-color: #fff;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+
