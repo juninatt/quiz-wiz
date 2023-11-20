@@ -15,7 +15,7 @@ import se.juninatt.quizwiz.model.dto.QuizSummaryListDTO;
 import se.juninatt.quizwiz.model.entity.AnswerOption;
 import se.juninatt.quizwiz.model.entity.Question;
 import se.juninatt.quizwiz.model.entity.Quiz;
-import se.juninatt.quizwiz.repository.AnswerOptionRepository;
+import se.juninatt.quizwiz.repository.LeaderboardRepository;
 import se.juninatt.quizwiz.repository.QuestionRepository;
 import se.juninatt.quizwiz.repository.QuizRepository;
 
@@ -32,13 +32,10 @@ public class QuizService {
     private static final Logger logger = LoggerFactory.getLogger(QuizService.class);
     private final QuizRepository quizRepository;
     private final QuestionRepository questionRepository;
-    private final AnswerOptionRepository answerOptionRepository;
 
-
-    public QuizService(QuizRepository quizRepository, QuestionRepository questionRepository, AnswerOptionRepository answerOptionRepository) {
+    public QuizService(QuizRepository quizRepository, QuestionRepository questionRepository, LeaderboardRepository leaderboardRepository) {
         this.quizRepository = quizRepository;
         this.questionRepository = questionRepository;
-        this.answerOptionRepository = answerOptionRepository;
     }
 
 

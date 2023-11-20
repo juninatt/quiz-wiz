@@ -41,7 +41,7 @@ function nextQuestion() {
     <label for="points">Points:</label>
     <input type="number" id="points" name="points" value="1">
     <button onclick="collectQuestion()">Next</button>
-  `;
+    `;
   document.getElementById("form-container").innerHTML = html;
 }
 
@@ -72,6 +72,7 @@ function collectQuestion() {
 
 // Generate and display the next answer options scene
 function nextAnswerOptions() {
+  const buttonText = questionCount === 4 ? "Finish" : "Next";
   const html = `
     <label>Enter answer options:</label>
     <input type="text" id="option1" class="answer-option" placeholder="Option 1">
@@ -85,7 +86,7 @@ function nextAnswerOptions() {
       <option value="3">Option 3</option>
       <option value="4">Option 4</option>
     </select>
-    <button onclick="collectAnswers()">Next</button>
+    <button onclick="collectAnswers()">${buttonText}</button>
   `;
   document.getElementById("form-container").innerHTML = html;
 }
@@ -159,7 +160,7 @@ function completeQuiz() {
         `).join('')}
       </ul>
       <button class="summary-button" onclick="sendQuizToBackend()">Confirm</button>
-      <button class="summary-button" onclick="returnToCreateQuizPage()">Cancel</button>
+      <button class="summary-button" onclick="cancelQuiz()">Cancel</button>
     </div>
   `;
 
@@ -195,7 +196,7 @@ function sendQuizToBackend() {
     questions: formattedQuestions
   };
 
-  fetch('/create-quiz', {
+  fetch('/quiz/create', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -204,7 +205,7 @@ function sendQuizToBackend() {
   })
   .then(response => response.text())
   .then(data => {
-    window.location.href = '/quiz-wiz';
+    window.location.href = '/menu/welcome';
     console.log('Success:', data);
   })
   .catch(error => {

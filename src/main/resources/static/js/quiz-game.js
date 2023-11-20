@@ -1,8 +1,10 @@
 const quizContainer = document.getElementById('quiz-container');
-  const quizId = quizContainer.getAttribute('data-quiz-id');
-  let currentQuestionIndex = 0;
-  let correctAnswersCount = 0;
-  let nextQuestionButton = document.getElementById('next-question-button');
+const quizId = quizContainer.getAttribute('data-quiz-id');
+const quizTopic = quizContainer.getAttribute('data-topic');
+let currentQuestionIndex = 0;
+let correctAnswersCount = 0;
+let totalScore = 0;
+let nextQuestionButton = document.getElementById('next-question-button');
 
 
 // Populate html with quiz content and add event listener to option elements
@@ -21,7 +23,7 @@ console.log('Displaying question ' + (currentQuestionIndex + 1))
     optionElement.className = 'option';
     optionElement.textContent = option.optionText;
     optionElement.dataset.isCorrect = option.isCorrectAnswer; // Store the correct answer flag in a data attribute
-    optionElement.addEventListener('click', function() { selectOption(optionElement); });
+    optionElement.addEventListener('click', function() { selectOption(optionElement, questionData); });
     optionsContainer.appendChild(optionElement);
   });
 }
@@ -48,6 +50,7 @@ console.log('Option selected')
   if (isCorrect) {
     // Increment the score and apply a green border to the option element
     correctAnswersCount++;
+    totalScore += questionData.points;
     optionElement.classList.add('correct');
   } else {
     // Apply the red border to th option element
@@ -65,7 +68,7 @@ console.log('Option selected')
     console.log('Quiz is complete, ready to submit');
     nextQuestionButton.textContent = 'Finish';
     nextQuestionButton.removeEventListener('click', handleNextQuestionClick);
-    nextQuestionButton.addEventListener('click', submitQuizResults);
+    nextQuestionButton.addEventListener('click', showPopup);
   }
     nextQuestionButton.style.display = 'block';
 }
@@ -87,7 +90,7 @@ function initializeNextQuestionButton() {
 
     nextQuestionButton.style.display = 'none';
 
-    fetch(`/next-question/${quizId}/question/${questionIndex}`)
+    fetch(`/quiz/next-question/${quizId}/question/${questionIndex}`)
       .then(response => {
         if (!response.ok) {
           throw new Error(`HTTP status ${response.status}`);
@@ -103,24 +106,6 @@ function initializeNextQuestionButton() {
   }
 
 
-function submitQuizResults() {
-  console.log('Submitting quiz results');
-  fetch(`/submit-quiz/${quizId}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ correctAnswers: correctAnswersCount })
-  })
-  .then(response => response.json())
-  .then(data => {
-    showPopup(data);
-  })
-  .catch(error => {
-    console.error('Failed to submit the quiz results:', error.message);
-  });
-}
-
 function showPopup(quizData) {
   const popupBackground = document.createElement('div');
   popupBackground.className = 'popup-background';
@@ -128,7 +113,7 @@ function showPopup(quizData) {
   const popup = document.createElement('div');
   popup.className = 'popup';
   popup.innerHTML = `
-    <h2>Great job, ${quizData.score}!</h2>
+    <h2>Great job!</h2>
     <p>Enter your name to save your score:</p>
     <input type="text" id="username" placeholder="Your Name">
     <button class="quiz-game-button" onclick="saveScore()">Save Score</button>
@@ -142,20 +127,24 @@ function showPopup(quizData) {
 function saveScore() {
   const quizId = quizContainer.getAttribute('data-quiz-id');
   const totalQuestions = 5;
-
   const totalScorePercentage = Math.round((correctAnswersCount / totalQuestions) * 100);
   const currentDate = new Date().toISOString().split('T')[0];
   const playerName = document.getElementById('username').value;
 
+  // Assuming you have a way to determine the topic and score
+  const score = "Calculated Score";
+
   const payload = {
     player: playerName,
-    totalScore: totalScorePercentage,
-    timeUsedPercentage: null,
-    completionPercentage: null,
+    topic: quizTopic,
+    score: totalScore,
+    totalScorePercentage: totalScorePercentage,
+    timeUsedPercentage: 0, // Replace 0 with actual calculation if needed
     date: currentDate,
     quiz: { id: quizId }
   };
-  const endpoint = `/submit-quiz/${quizId}`;
+
+  const endpoint = `/quiz/submit/${quizId}`;
 
   fetch(endpoint, {
     method: 'POST',
@@ -181,7 +170,7 @@ function saveScore() {
 function closePopup() {
   const popupBackground = document.querySelector('.popup-background');
   if (popupBackground) {
-    document.body.style.overflow = ''; // Enable body scrolling
+    document.body.style.overflow = '';
     popupBackground.remove();
   }
 }

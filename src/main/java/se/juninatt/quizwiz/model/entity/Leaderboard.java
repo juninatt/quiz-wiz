@@ -8,20 +8,22 @@ import java.util.Objects;
  * Summarizes a {@link Quiz} round.
  */
 @Entity
-@Table(name = "game_summary")
-public class GameSummary {
+@Table(name = "leaderboard")
+public class Leaderboard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "player")
     private String player;
-    @Column(name = "total_score")
-    private int totalScore;
+    @Column(name = "topic")
+    private String topic;
+    @Column(name = "score")
+    private String score;
+    @Column(name = "total_score_percentage")
+    private int totalScorePercentage;
     @Column(name = "time_used_percentage")
     private int timeUsedPercentage;
-    @Column(name = "completion_percentage")
-    private int completionPercentage;
     @Column(name = "date")
     private String date;
 
@@ -31,17 +33,17 @@ public class GameSummary {
 
     // Constructors
 
-    public GameSummary() {}
+    public Leaderboard() {}
 
-    public GameSummary(String player,
-                       int totalScore,
+    public Leaderboard(String player,
+                       String score,
                        int timeUsedPercentage,
-                       int completionPercentage,
+                       int totalScorePercentage,
                        String date) {
         this.player = player;
-        this.totalScore = totalScore;
+        this.score = score;
         this.timeUsedPercentage = timeUsedPercentage;
-        this.completionPercentage = completionPercentage;
+        this.totalScorePercentage = totalScorePercentage;
         this.date = date;
     }
 
@@ -63,12 +65,20 @@ public class GameSummary {
         this.player = player;
     }
 
-    public int getTotalScore() {
-        return totalScore;
+    public String getTopic() {
+        return topic;
     }
 
-    public void setTotalScore(int totalScore) {
-        this.totalScore = totalScore;
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
+
+    public String getScore() {
+        return score;
+    }
+
+    public void setScore(String totalScore) {
+        this.score = totalScore;
     }
 
     public int getTimeUsedPercentage() {
@@ -80,11 +90,11 @@ public class GameSummary {
     }
 
     public int getCompletionPercentage() {
-        return completionPercentage;
+        return totalScorePercentage;
     }
 
     public void setCompletionPercentage(int completionPercentage) {
-        this.completionPercentage = completionPercentage;
+        this.totalScorePercentage = completionPercentage;
     }
 
     public String getDate() {
@@ -109,7 +119,7 @@ public class GameSummary {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        GameSummary that = (GameSummary) o;
+        Leaderboard that = (Leaderboard) o;
         return id == that.id;
     }
 
@@ -122,9 +132,9 @@ public class GameSummary {
     public String toString() {
         return "GameSummary{" +
                 "id=" + id +
-                ", totalScore=" + totalScore +
+                ", totalScore=" + score +
                 ", timeUsedPercentage=" + timeUsedPercentage +
-                ", completionPercentage=" + completionPercentage +
+                ", completionPercentage=" + totalScorePercentage +
                 ", date='" + date + '\'' +
                 '}';
     }

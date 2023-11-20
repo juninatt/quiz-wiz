@@ -6,15 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 import se.juninatt.quizwiz.mapper.QuizMapper;
 import se.juninatt.quizwiz.model.dto.QuestionDTO;
 import se.juninatt.quizwiz.model.dto.QuizDTO;
-import se.juninatt.quizwiz.model.dto.QuizSummaryListDTO;
-import se.juninatt.quizwiz.model.entity.GameSummary;
+import se.juninatt.quizwiz.model.entity.Leaderboard;
 import se.juninatt.quizwiz.model.entity.Question;
 import se.juninatt.quizwiz.model.entity.Quiz;
 import se.juninatt.quizwiz.service.QuizService;
@@ -29,59 +25,13 @@ import java.util.Map;
  * the model for the view templates.
  */
 @Controller
+@RequestMapping("/quiz")
 public class QuizController {
-
     private static final Logger logger = LoggerFactory.getLogger(QuizController.class);
+
     @Autowired
     private QuizService quizService;
 
-    /**
-     * Renders the welcome page with a welcome message.
-     *
-     * @param model The model object that holds data for the view template.
-     * @return The name of the Thymeleaf template to be rendered as a welcome page.
-     */
-    @GetMapping("/quiz-wiz")
-    public String showWelcomePage(Model model) {
-        logger.info("Received request to open welcome page");
-
-        model.addAttribute("message", "Welcome to the Quiz Portal. Choose from various quizzes or create your own!");
-
-        return "menu-pages/welcome-page";
-    }
-
-    /**
-     * Shows the page for creating a new {@link Quiz}.
-     *
-     * @param model The model object to pass data needed for rendering the page.
-     * @return The name of the Thymeleaf template for creating a new quiz.
-     */
-    @GetMapping("/quiz-creation")
-    public String showCreateQuizPage(Model model) {
-        logger.info("Received request to open quiz-creation page");
-
-        model.addAttribute("page_title", "Create Your Own Quiz");
-
-        return "menu-pages/quiz-creation-page";
-    }
-
-    /**
-     * Displays a list of available {@link Quiz}zes for the user to play.
-     *
-     * @param model The model object to pass data for displaying available quizzes.
-     * @return The name of the Thymeleaf template to display quiz selections.
-     */
-    @GetMapping("/quiz-selection")
-    public String showPlayQuizPage(Model model) {
-        logger.info("Received request to show quiz selection");
-        QuizSummaryListDTO quizSummaries = quizService.getQuizSummaryList();
-
-        model.addAttribute("quizzes", quizSummaries);
-        model.addAttribute("pageTitle", "Available Quizzes:");
-        model.addAttribute("subTitle", "Click on the quiz you want to play!");
-
-        return "menu-pages/quiz-selection-page";
-    }
 
     /**
      * Handles the creation of a new {@link Quiz}.
@@ -89,7 +39,7 @@ public class QuizController {
      * @param quizContent The content of the quiz from the request body.
      * @return A ResponseEntity indicating the outcome of the create operation.
      */
-    @PostMapping("/create-quiz")
+    @PostMapping("/create")
     public ResponseEntity<String> createQuiz(@RequestBody QuizDTO quizContent) {
         logger.info("Received request to create new quiz " + quizContent);
         quizService.createQuiz(quizContent);
@@ -104,10 +54,9 @@ public class QuizController {
      * @param model the {@link Model} to hold attributes for the view template.
      * @return the name of the template to render the quiz game.
      */
-    @GetMapping("/start-quiz/{quizId}")
+    @GetMapping("/start/{quizId}")
     public String startQuizGame(@PathVariable long quizId, Model model) {
         logger.info("Received request to start quiz:" + quizId);
-
         model.addAttribute("quizId", quizId);
         model.addAttribute("topic", quizService.getQuizById(quizId).getTopic());
 
@@ -123,8 +72,7 @@ public class QuizController {
      */
     @GetMapping("/next-question/{quizId}/question/{questionIndex}")
     public ResponseEntity<?> getQuestionFromQuiz(@PathVariable long quizId, @PathVariable int questionIndex) {
-        logger.info("Received request for next question");
-
+        logger.info("Received request for next question nr: " + questionIndex + 1 + ", from quiz: " + quizId);
         Question question = quizService.getQuestionFromQuiz(questionIndex, quizId);
         QuestionDTO questionContent = QuizMapper.INSTANCE.entityToDTO(question);
 
@@ -132,22 +80,22 @@ public class QuizController {
     }
 
     /**
-     * Processes a quiz submission. Accepts a quiz ID and a {@link GameSummary} object, logs the submission,
+     * Processes a quiz submission. Accepts a quiz ID and a {@link Leaderboard} object, logs the submission,
      * and returns a response with the player's score.
      *
      * @param quizId       the ID of the submitted quiz
-     * @param gameSummary  the summary of the player's performance
+     * @param leaderboard  the summary of the player's performance
      * @return a {@link ResponseEntity} with submission confirmation and score
      */
-    @PostMapping("/submit-quiz/{quizId}")
-    public ResponseEntity<?> submitQuiz(@PathVariable long quizId, @RequestBody GameSummary gameSummary) {
-        logger.info("Quiz submission received: " + gameSummary);
+    @PostMapping("/submit/{quizId}")
+    public ResponseEntity<?> submitQuiz(@PathVariable long quizId, @RequestBody Leaderboard leaderboard) {
+        logger.info("Quiz submission received: " + leaderboard);
         Map<String, Object> response = new HashMap<>();
 
-        gameSummary.setQuiz(quizService.getQuizById(quizId));
+        leaderboard.setQuiz(quizService.getQuizById(quizId));
 
         response.put("message", "Quiz submission received");
-        response.put("score", gameSummary.getTotalScore());
+        response.put("score", leaderboard.getScore());
 
         return ResponseEntity.ok(response);
     }

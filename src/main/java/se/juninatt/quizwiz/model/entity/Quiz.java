@@ -21,7 +21,7 @@ public class Quiz {
     private List<Question> questions;
 
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<GameSummary> gameSummaries;
+    private List<Leaderboard> gameSummaries;
 
     // Constructors
 
@@ -59,11 +59,11 @@ public class Quiz {
         questions.forEach(question -> question.setQuiz(this));
     }
 
-    public List<GameSummary> getGameSummaries() {
+    public List<Leaderboard> getGameSummaries() {
         return gameSummaries;
     }
 
-    public void setGameSummaries(List<GameSummary> gameSummaries) {
+    public void setGameSummaries(List<Leaderboard> gameSummaries) {
         this.gameSummaries = gameSummaries;
     }
 

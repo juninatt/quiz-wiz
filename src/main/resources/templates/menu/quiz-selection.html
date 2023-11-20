@@ -4,7 +4,7 @@
 <head>
     <title>Quiz Selection</title>
     <link rel="stylesheet" th:href="@{/css/global.css}" />
-    <link rel="stylesheet" th:href="@{/css/menu-pages/quiz-selection-page.css}" />
+    <link rel="stylesheet" th:href="@{/css/menu/quiz-selection.css}" />
 </head>
 
 <body>
@@ -17,8 +17,7 @@
 <!-- Main Container -->
 <div class="container">
     <!-- Page Titles -->
-    <h1 class="main-title page-title" th:text="${pageTitle}"></h1>
-    <h2 class="main-title page-title page-sub-title" th:text="${subTitle}"></h2>
+    <h1 class="main-title page-title">Available Quizzes: </h1>
 
     <!-- Table Container -->
     <div class="table-container">
@@ -45,8 +44,8 @@
 </div>
 
 <!-- Scripts -->
-<script th:src="@{/js/main-menu.js}" defer></script>
-<script th:src="@{/js/menu-pages/quiz-selection-page.js}" defer></script>
+<script th:src="@{/js/menu.js}" defer></script>
+<script th:src="@{/js/menu/quiz-selection.js}" defer></script>
 </body>
 
 </html>

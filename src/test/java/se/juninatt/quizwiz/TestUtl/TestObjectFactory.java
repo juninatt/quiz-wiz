@@ -5,7 +5,7 @@ import se.juninatt.quizwiz.model.dto.AnswerOptionDTO;
 import se.juninatt.quizwiz.model.dto.QuestionDTO;
 import se.juninatt.quizwiz.model.dto.QuizDTO;
 import se.juninatt.quizwiz.model.entity.AnswerOption;
-import se.juninatt.quizwiz.model.entity.GameSummary;
+import se.juninatt.quizwiz.model.entity.Leaderboard;
 import se.juninatt.quizwiz.model.entity.Question;
 import se.juninatt.quizwiz.model.entity.Quiz;
 
@@ -21,24 +21,24 @@ public class TestObjectFactory {
     // GAME SUMMARY OBJECT CREATION
 
     /**
-     * Creates a default {@link GameSummary} object.
+     * Creates a default {@link Leaderboard} object.
      *
      * @return A default GameSummary object.
      */
-    public static GameSummary createDefaultGameSummary() {
-        return new GameSummary("Sigmund", 100, 75, 90, "2023-10-19");
+    public static Leaderboard createDefaultGameSummary() {
+        return new Leaderboard("Sigmund", "5/10", 75, 90, "2023-10-19");
     }
 
-    public static GameSummary createGameSummaryWithTimeUsedPercentage(int timeUsedPercentage) {
-        return new GameSummary("Göran", 100, timeUsedPercentage, 90, "2023-10-19");
+    public static Leaderboard createGameSummaryWithTimeUsedPercentage(int timeUsedPercentage) {
+        return new Leaderboard("Göran", "5/10", timeUsedPercentage, 90, "2023-10-19");
     }
 
-    public static GameSummary createGameSummaryWithCompletionPercentage(int completionPercentage) {
-        return new GameSummary("Karen", 100, 50, completionPercentage, "2023-10-19");
+    public static Leaderboard createGameSummaryWithTotalScorePercentage(int totalScorePercentage) {
+        return new Leaderboard("Karen", "10/20", 50, totalScorePercentage, "2023-10-19");
     }
 
-    public static GameSummary createGameSummaryWithTotalScore(int totalScore) {
-        return new GameSummary("Safari", totalScore, 50, 90, "2023-10-19");
+    public static Leaderboard createGameSummaryWithScore(String score) {
+        return new Leaderboard("Safari", score, 50, 90, "2023-10-19");
     }
 
     // QUESTION OBJECT CREATION
