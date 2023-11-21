@@ -4,7 +4,7 @@ class PopupManager {
         this.popupBackground.className = 'popup-background';
     }
 
-    showPopup() {
+    showPopup(onClose) {
         // Create the popup content
         const popup = document.createElement('div');
         popup.className = 'popup';
@@ -24,7 +24,12 @@ class PopupManager {
 
         // Add event listeners to the buttons
         document.getElementById('save-score').addEventListener('click', submitQuizResult);
-        document.getElementById('close-popup').addEventListener('click', () => this.closePopup());
+        document.getElementById('close-popup').addEventListener('click', () => {
+            this.closePopup();
+            if (typeof onClose === 'function') {
+                onClose(); // Call the onClose callback if provided
+            }
+        });
     }
 
     closePopup() {

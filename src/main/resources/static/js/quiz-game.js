@@ -133,7 +133,7 @@ function updateAndShowNextButton() {
     if (currentQuestionIndex === 5) {
         nextQuestionButton.textContent = 'Finish';
         nextQuestionButton.removeEventListener('click', handleNextQuestionClick);
-        nextQuestionButton.addEventListener('click', () => popupManager.showPopup());
+        nextQuestionButton.addEventListener('click', () => popupManager.showPopup(resetQuizState));
         } else {
         nextQuestionButton.textContent = 'Next Question';
     }
@@ -171,11 +171,19 @@ function submitQuizResult() {
     return response.json();
   })
   .then(data => {
-    console.log('Score saved successfully:', data);
+    resetQuizState();
   })
   .catch(error => {
     console.error('Error saving the score:', error.message);
   });
+}
+
+function resetQuizState() {
+    currentQuestionIndex = 0;
+    correctAnswersCount = 0;
+    totalScore = 0;
+    totalQuizTime = 0;
+    window.location.href = '/menu/quiz-selection';
 }
 
 
