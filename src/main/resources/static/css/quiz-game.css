@@ -121,6 +121,57 @@
     min-width: 300px;
 }
 
+.timer-progress-bar {
+    height: 100%;
+    width: 100%;
+    background-color: green;
+    transition: width 1s linear;
+}
+.timer-progress {
+     height: 10px;
+     width: 100%;
+     background-color: green;
+     transition: width 1s linear;
+ }
+
+ /* Quiz Container Styles */
+ .inner-container {
+     /* Existing styles */
+     position: relative; /* Required for absolute positioning of child elements */
+ }
+
+ /* Timer Progress Bar as Frame */
+ .inner-container:before {
+     content: '';
+     position: absolute;
+     top: 0;
+     left: 0;
+     right: 0;
+     bottom: 0;
+     border: 10px solid transparent; /* Adjust the thickness of the frame */
+     box-sizing: border-box;
+     pointer-events: none; /* Ensures clicks pass through to elements below */
+ }
+
+ /* Dynamic Update of the Frame (Representing the Timer) */
+ .inner-container.timer-active:before {
+     border-color: green; /* Color of the timer frame */
+     transition: border-width 1s linear; /* Transition for the frame 'shrinking' */
+ }
+
+
+
+/* Timer Progress Bar Styling */
+.timer-progress {
+    height: 20px; /* Height of the progress bar */
+    width: 100%; /* Full width to start with */
+    background-color: #4CAF50; /* Color of the progress bar */
+    border-radius: 5px; /* Rounded corners */
+    transition: width 1s linear; /* Smooth transition for the width decrease */
+    margin: 10px 0; /* Margin for spacing */
+}
+
+
 /* RESPONSIVE ADJUSTMENTS */
 @media (max-width: 600px) {
     #quiz-container {

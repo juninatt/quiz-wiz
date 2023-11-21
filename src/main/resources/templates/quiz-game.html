@@ -24,6 +24,7 @@
     <div id="question">
       <h2 id="question-text">Please wait while the question loads...</h2>
     </div>
+    <div id="timer-progress" class="timer-progress"></div>
 
     <!-- Options Grid -->
     <div id="options" class="options-grid">
@@ -36,6 +37,8 @@
 </div>
 
 <!-- Scripts -->
+<script th:src="@{/js/utils/timer.js}" defer></script>
+<script th:src="@{/js/utils/popup-manager.js}" defer></script>
 <script th:src="@{/js/quiz-game.js}" defer></script>
 
 </body>
