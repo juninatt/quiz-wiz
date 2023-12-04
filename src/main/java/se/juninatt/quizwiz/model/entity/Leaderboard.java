@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 /**
- * Summarizes a {@link Quiz} round.
+ * Summarizes total score, time used etc for a {@link Quiz} game played by a user.
  */
 @Entity
 @Table(name = "leaderboard")
@@ -130,12 +130,15 @@ public class Leaderboard {
 
     @Override
     public String toString() {
-        return "GameSummary{" +
+        return "Leaderboard{" +
                 "id=" + id +
-                ", totalScore=" + score +
+                ", player='" + player + '\'' +
+                ", topic='" + topic + '\'' +
+                ", score='" + score + '\'' +
+                ", totalScorePercentage=" + totalScorePercentage +
                 ", timeUsedPercentage=" + timeUsedPercentage +
-                ", completionPercentage=" + totalScorePercentage +
                 ", date='" + date + '\'' +
+                ", quiz=" + (quiz != null ? quiz.getId() : "null") +
                 '}';
     }
 }
