@@ -10,13 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import se.juninatt.quizwiz.mapper.QuizMapper;
 import se.juninatt.quizwiz.model.dto.QuestionDTO;
 import se.juninatt.quizwiz.model.dto.QuizDTO;
-import se.juninatt.quizwiz.model.entity.Leaderboard;
 import se.juninatt.quizwiz.model.entity.Question;
 import se.juninatt.quizwiz.model.entity.Quiz;
 import se.juninatt.quizwiz.service.QuizService;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * The QuizController class handles all web requests for creating, managing,
@@ -77,26 +73,5 @@ public class QuizController {
         QuestionDTO questionContent = QuizMapper.INSTANCE.entityToDTO(question);
 
         return ResponseEntity.ok(questionContent);
-    }
-
-    /**
-     * Processes a quiz submission. Accepts a quiz ID and a {@link Leaderboard} object, logs the submission,
-     * and returns a response with the player's score.
-     *
-     * @param quizId       the ID of the submitted quiz
-     * @param leaderboard  the summary of the player's performance
-     * @return a {@link ResponseEntity} with submission confirmation and score
-     */
-    @PostMapping("/submit/{quizId}")
-    public ResponseEntity<?> submitQuiz(@PathVariable long quizId, @RequestBody Leaderboard leaderboard) {
-        logger.info("Quiz submission received: " + leaderboard);
-        Map<String, Object> response = new HashMap<>();
-
-        leaderboard.setQuiz(quizService.getQuizById(quizId));
-
-        response.put("message", "Quiz submission received");
-        response.put("score", leaderboard.getScore());
-
-        return ResponseEntity.ok(response);
     }
 }

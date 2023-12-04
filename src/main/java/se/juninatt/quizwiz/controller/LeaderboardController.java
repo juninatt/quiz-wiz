@@ -8,7 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import se.juninatt.quizwiz.model.dto.LeaderboardDTO;
 import se.juninatt.quizwiz.model.entity.Leaderboard;
 import se.juninatt.quizwiz.service.LeaderboardService;
 
@@ -43,9 +45,9 @@ public class LeaderboardController {
         return "menu/leaderboard";
     }
 
-    @PostMapping("save")
-    public ResponseEntity<?> saveQuizGameToLeaderboard(Leaderboard leaderboard) {
-
+    @PostMapping("/save")
+    public ResponseEntity<?> saveQuizGameToLeaderboard(@RequestBody LeaderboardDTO quizGameData) {
+        logger.info("Submission to leaderboard received: " + quizGameData);
 
         return ResponseEntity.ok(null);
     }
