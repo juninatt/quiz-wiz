@@ -68,7 +68,7 @@ public class QuizController {
      */
     @GetMapping("/{quizId}/question/{questionIndex}")
     public ResponseEntity<?> getQuestionFromQuiz(@PathVariable long quizId, @PathVariable int questionIndex) {
-        logger.info("Received request for next question nr: " + questionIndex + 1 + ", from quiz: " + quizId);
+        logger.info("Received request for next question nr: " + (questionIndex + 1) + ", from quiz: " + quizId);
         Question question = quizService.getQuestionFromQuiz(questionIndex, quizId);
         QuestionDTO questionContent = QuizMapper.INSTANCE.entityToDTO(question);
 

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import se.juninatt.quizwiz.model.dto.LeaderboardDTO;
+import se.juninatt.quizwiz.model.dto.QuizResultDTO;
 import se.juninatt.quizwiz.model.entity.Leaderboard;
 import se.juninatt.quizwiz.service.LeaderboardService;
 
@@ -46,7 +46,7 @@ public class LeaderboardController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> saveQuizGameToLeaderboard(@RequestBody LeaderboardDTO quizGameData) {
+    public ResponseEntity<?> saveQuizGameToLeaderboard(@RequestBody QuizResultDTO quizGameData) {
         logger.info("Submission to leaderboard received: " + quizGameData);
 
         return ResponseEntity.ok(null);

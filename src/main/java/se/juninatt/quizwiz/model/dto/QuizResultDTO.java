@@ -4,13 +4,11 @@ import se.juninatt.quizwiz.model.entity.Quiz;
 
 /**
  * Record that summarizes a {@link Quiz} round finished by a user before an ID has been added.
+ * Holds the name entered by the player, the total score, the total time it took for the user to answer all questions and the ID of the quiz.
  */
-public record LeaderboardDTO(
+public record QuizResultDTO(
         String player,
-        String topic,
-        String score,
-        int totalScorePercentage,
-        int timeUsedPercentage,
-        String date,
+        int score,
+        int timeUsedSec,
         long quizId
 ) { }
