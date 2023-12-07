@@ -13,7 +13,7 @@
 <div class="outer-container">
 
   <!-- Quiz Container -->
-  <div id="quiz-container" class="inner-container" th:data-quiz-id="${quizId}" th:data-topic="${topic}">
+  <div id="quiz-container" class="inner-container" th:quiz-id="${quizId}" th:topic="${topic}">
 
     <!-- Page Title -->
     <div id="page-title">
@@ -38,6 +38,7 @@
 
 <!-- Scripts -->
 <script th:src="@{/js/utils/timer.js}" defer></script>
+<script th:src="@{/js/utils/button-handler.js}" defer></script>
 <script th:src="@{/js/utils/quiz-result.js}" defer></script>
 <script th:src="@{/js/utils/popup-manager.js}" defer></script>
 <script th:src="@{/js/quiz-game.js}" defer></script>

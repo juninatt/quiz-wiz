@@ -1,18 +1,12 @@
 const quizContainer = document.getElementById('quiz-container');
-const quizId = quizContainer.getAttribute('data-quiz-id');
-const quizTopic = quizContainer.getAttribute('data-topic');
+const quizId = quizContainer.getAttribute('quiz-id');
+const quizTopic = quizContainer.getAttribute('topic');
 let currentQuestionIndex = 0;
-let totalScore = 0;
-let maximumScore = 0;
-let totalQuizTime = 0;
-let nextQuestionButton = document.getElementById('next-question-button');
+const buttonHandler = new ButtonHandler('next-question-button');
 const quizResult = new QuizResult(quizId);
 const popupManager = new PopupManager();
 const questionTimer = new Timer(handleTimerExpiry);
 
-// Set action for 'Next Question' button
-function initializeNextQuestionButton() {
-    nextQuestionButton.addEventListener('click', handleNextQuestionClick);}
 
 function handleNextQuestionClick() {
     loadQuestion(currentQuestionIndex);
@@ -21,7 +15,7 @@ function handleNextQuestionClick() {
 // Updated loadQuestion function
 function loadQuestion(questionIndex) {
     // Hide button before option is chosen
-    nextQuestionButton.style.display = 'none';
+    buttonHandler.setHidden(true);
 
     fetchQuestionData(questionIndex)
         .then(questionData => {
@@ -127,13 +121,10 @@ function highlightCorrectOption() {
 function updateAndShowNextButton() {
     currentQuestionIndex++;
     if (currentQuestionIndex === 5) {
-        nextQuestionButton.textContent = 'Finish';
-        nextQuestionButton.removeEventListener('click', handleNextQuestionClick);
-        nextQuestionButton.addEventListener('click', () => popupManager.showPopup(resetQuizState));
-        } else {
-        nextQuestionButton.textContent = 'Next Question';
-    }
-    nextQuestionButton.style.display = 'block';
+        buttonHandler.setText('Finish');
+        buttonHandler.setEventListener('click', () => popupManager.showPopup(resetQuizState));
+        }
+    buttonHandler.setHidden(false);
 }
 
 // Submit quiz results and handle response
@@ -174,6 +165,7 @@ function submitQuizResult() {
       });
   }
 
+// TODO: Update reset function
 function resetQuizState() {
     currentQuestionIndex = 0;
     totalScore = 0;
@@ -183,6 +175,7 @@ function resetQuizState() {
 
 
 document.addEventListener('DOMContentLoaded', () => {
-  initializeNextQuestionButton();
+  buttonHandler.setText('Next Question');
+  buttonHandler.setEventListener('click', handleNextQuestionClick)
   loadQuestion(currentQuestionIndex);
 });
