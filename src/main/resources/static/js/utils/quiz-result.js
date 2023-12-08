@@ -8,7 +8,7 @@ class QuizResult {
      * Constructs a new QuizResult instance.
      */
     constructor(quizId) {
-        this.quiz = { id: quizId };
+        this.quizId = quizId;
         this.player = '';
         this.score = 0;
         this.timeUsedSec = 0;
@@ -43,11 +43,11 @@ class QuizResult {
      * Used to send data to the API.
      */
     toJSON() {
-        return JSON.stringify({
-            quizId: this.quiz.id,
+        return {
+            quizId: this.quizId,
             player: this.player,
             score: this.score,
             timeUsedSec: this.timeUsedSec
-        });
+        };
     }
 }

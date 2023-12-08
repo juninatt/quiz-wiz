@@ -7,8 +7,8 @@ import se.juninatt.quizwiz.model.entity.Quiz;
  * Holds the name entered by the player, the total score, the total time it took for the user to answer all questions and the ID of the quiz.
  */
 public record QuizResultDTO(
+        long quizId,
         String player,
         int score,
-        int timeUsedSec,
-        long quizId
+        int timeUsedSec
 ) { }

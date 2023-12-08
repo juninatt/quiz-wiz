@@ -3,12 +3,12 @@ const quizId = quizContainer.getAttribute('quiz-id');
 const quizTopic = quizContainer.getAttribute('topic');
 let currentQuestionIndex = 0;
 const buttonHandler = new ButtonHandler('next-question-button');
-const quizResult = new QuizResult(quizId);
+const quizResult = new QuizResult(Number(quizId));
 const popupManager = new PopupManager();
 const questionTimer = new Timer(handleTimerExpiry);
 
 
-function handleNextQuestionClick() {
+function handleButtonClick() {
     loadQuestion(currentQuestionIndex);
 }
 
@@ -94,7 +94,7 @@ function handleTimerExpiry() {
 }
 
 function finalizeQuestion() {
-    quizResult.addTimeUsedSec(questionTimer.getTimeUsed());
+    quizResult.addTimeUsedSec(Math.round(questionTimer.getTimeUsed()));
     highlightCorrectOption();
     updateAndShowNextButton();
 }
@@ -104,7 +104,7 @@ function disableAllOptions() {
     const allOptions = document.querySelectorAll('.option');
     allOptions.forEach(option => {
         option.removeEventListener('click', selectOption);
-        option.classList.add('disabled'); // Add class
+        option.classList.add('disabled');
     });
 }
 
@@ -127,45 +127,26 @@ function updateAndShowNextButton() {
     buttonHandler.setHidden(false);
 }
 
-// Submit quiz results and handle response
+// Send result of the quiz game to be stored as a leaderboard object in the database
 function submitQuizResult() {
-  quizResult.setPlayer(document.getElementById('username').value);
+    // Initialize the API handler
+    const apiHandler = new RestClient();
+    // Set the player name in the quizResult from the input field
+    quizResult.setPlayer(document.getElementById('username').value);
 
+    // Send the quizResult object to be stored in the database
+    apiHandler.sendRequest('/leaderboard/save', 'POST', quizResult)
+        .then(() => {
+            console.log('Quiz results submitted');
+            resetQuizState();
+        })
+        .catch(error => {
+            console.error('Error saving the score:', error.message);
+            resetQuizState();
+        });
+}
 
-  // Prepare the payload
-      const payload = {
-          player: quizResult.player,
-          score: quizResult.score,
-          timeUsedSec: quizResult.timeUsedSec,
-          quizId: quizResult.quiz.id // Ensure this matches the type expected by the backend
-      };
-
-      // Send data to the backend
-      const endpoint = `/leaderboard/save`;
-
-      fetch(endpoint, {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(payload)
-      })
-      .then(response => {
-          if (!response.ok) {
-              throw new Error(`HTTP status ${response.status}`);
-          }
-          return response.json();
-      })
-      .then(data => {
-          resetQuizState();
-          console.log('Quiz results submitted:', payload);
-      })
-      .catch(error => {
-          console.error('Error saving the score:', error.message);
-      });
-  }
-
-// TODO: Update reset function
+// Reset the quiz game to its starting state and redirect to quiz selection page
 function resetQuizState() {
     currentQuestionIndex = 0;
     totalScore = 0;
@@ -176,6 +157,6 @@ function resetQuizState() {
 
 document.addEventListener('DOMContentLoaded', () => {
   buttonHandler.setText('Next Question');
-  buttonHandler.setEventListener('click', handleNextQuestionClick)
+  buttonHandler.setEventListener('click', handleButtonClick)
   loadQuestion(currentQuestionIndex);
 });
