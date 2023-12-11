@@ -1,4 +1,4 @@
-package se.juninatt.quizwiz.TestUtl;
+package se.juninatt.quizwiz.test_util;
 
 
 import se.juninatt.quizwiz.model.dto.AnswerOptionDTO;
@@ -65,8 +65,7 @@ public class TestObjectFactory {
     }
 
     public static Quiz createQuizWithTopic(String topic) {
-        Quiz quiz = new Quiz(topic, List.of(new Question()));
-        return quiz;
+        return new Quiz(topic, List.of(new Question()));
     }
 
     public static List<AnswerOption> createDefaultAnswerOptions() {

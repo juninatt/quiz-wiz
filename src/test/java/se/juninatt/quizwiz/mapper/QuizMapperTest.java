@@ -3,7 +3,7 @@ package se.juninatt.quizwiz.mapper;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import se.juninatt.quizwiz.TestUtl.TestObjectFactory;
+import se.juninatt.quizwiz.test_util.TestObjectFactory;
 import se.juninatt.quizwiz.model.dto.QuizDTO;
 import se.juninatt.quizwiz.model.entity.Quiz;
 
