@@ -1,11 +1,11 @@
-package se.juninatt.quizwiz.config.annotation;
+package se.juninatt.quizwiz.tests_config.annotation;
 
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
-import se.juninatt.quizwiz.config.TestDataSourceConfig;
+import se.juninatt.quizwiz.tests_config.TestDataSourceConfig;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)

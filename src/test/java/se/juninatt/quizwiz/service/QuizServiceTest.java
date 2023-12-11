@@ -3,7 +3,7 @@ package se.juninatt.quizwiz.service;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import se.juninatt.quizwiz.TestUtl.TestObjectFactory;
-import se.juninatt.quizwiz.config.implementation.TestDatabaseImplementation;
+import se.juninatt.quizwiz.tests_config.implementation.TestDatabaseImplementation;
 import se.juninatt.quizwiz.exception.InvalidQuizException;
 import se.juninatt.quizwiz.exception.InvalidQuizTopicException;
 import se.juninatt.quizwiz.exception.QuizNotFoundException;

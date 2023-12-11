@@ -1,4 +1,4 @@
-package se.juninatt.quizwiz.config;
+package se.juninatt.quizwiz.tests_config;
 
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
