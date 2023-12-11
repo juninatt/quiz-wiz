@@ -1,4 +1,13 @@
+
+/**
+ * RestClient handles HTTP requests to various endpoints.
+ */
 class RestClient {
+
+    /**
+     * Sends a request to a specified endpoint using a specified HTTP method.
+     * Optionally includes a payload in the request body.
+     */
     sendRequest(endpoint, callType, payload) {
         const url = `${endpoint}`;
         const options = {

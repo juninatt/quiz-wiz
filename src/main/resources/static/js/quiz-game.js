@@ -1,6 +1,5 @@
 const quizContainer = document.getElementById('quiz-container');
 const quizId = quizContainer.getAttribute('quiz-id');
-const quizTopic = quizContainer.getAttribute('topic');
 let currentQuestionIndex = 0;
 const buttonHandler = new ButtonHandler('next-question-button');
 const quizResult = new QuizResult(Number(quizId));
@@ -9,15 +8,24 @@ const questionTimer = new Timer(handleTimerExpiry);
 
 
 function handleButtonClick() {
-    loadQuestion(currentQuestionIndex);
+    buttonHandler.setHidden(true);
+    currentQuestionIndex++;
+    if (currentQuestionIndex === 4) {
+        buttonHandler.setText('Finish');
+        buttonHandler.setEventListener('click', () => popupManager.showPopup(resetQuizState));
+        }
+        loadQuestion(currentQuestionIndex);
 }
 
-// Updated loadQuestion function
+// Load the question located at the index passed to the function
 function loadQuestion(questionIndex) {
-    // Hide button before option is chosen
-    buttonHandler.setHidden(true);
-
-    fetchQuestionData(questionIndex)
+    fetch(`/quiz/${quizId}/question/${questionIndex}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP status ${response.status}`);
+            }
+            return response.json();
+        })
         .then(questionData => {
             displayQuestionWithOptions(questionData);
         })
@@ -26,20 +34,8 @@ function loadQuestion(questionIndex) {
         });
 }
 
-// New function to fetch question data
-function fetchQuestionData(questionIndex) {
-    return fetch(`/quiz/${quizId}/question/${questionIndex}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP status ${response.status}`);
-            }
-            return response.json();
-        });
-}
-
 // Populate HTML with quiz question and options
 function displayQuestionWithOptions(questionData) {
-    console.log('Displaying question ' + (currentQuestionIndex + 1));
     const questionTextContainer = document.getElementById('question-text');
     const optionsWrapper = document.getElementById('options');
 
@@ -72,13 +68,11 @@ function selectOption(optionElement, questionPointsReward) {
         if (questionTimer) {
             questionTimer.stop();
         }
-    console.log('Option selected');
 
     optionElement.classList.add('selected');
     disableAllOptions();
     const isCorrect = optionElement.dataset.isCorrect === '1';
     if (isCorrect) {
-    console.log(questionPointsReward);
         quizResult.addToScore(questionPointsReward);
         optionElement.classList.add('correct');
     } else {
@@ -90,13 +84,12 @@ function selectOption(optionElement, questionPointsReward) {
 function handleTimerExpiry() {
     disableAllOptions();
     finalizeQuestion();
-    console.log('Time is up! No points awarded for this question.');
 }
 
 function finalizeQuestion() {
     quizResult.addTimeUsedSec(Math.round(questionTimer.getTimeUsed()));
     highlightCorrectOption();
-    updateAndShowNextButton();
+    buttonHandler.setHidden(false);
 }
 
 // Disable click events and add disabled class to all quiz options
@@ -117,16 +110,6 @@ function highlightCorrectOption() {
     }
 }
 
-// Increment question index and toggle between Next and Finish button states
-function updateAndShowNextButton() {
-    currentQuestionIndex++;
-    if (currentQuestionIndex === 5) {
-        buttonHandler.setText('Finish');
-        buttonHandler.setEventListener('click', () => popupManager.showPopup(resetQuizState));
-        }
-    buttonHandler.setHidden(false);
-}
-
 // Send result of the quiz game to be stored as a leaderboard object in the database
 function submitQuizResult() {
     // Initialize the API handler
@@ -135,15 +118,7 @@ function submitQuizResult() {
     quizResult.setPlayer(document.getElementById('username').value);
 
     // Send the quizResult object to be stored in the database
-    apiHandler.sendRequest('/leaderboard/save', 'POST', quizResult)
-        .then(() => {
-            console.log('Quiz results submitted');
-            resetQuizState();
-        })
-        .catch(error => {
-            console.error('Error saving the score:', error.message);
-            resetQuizState();
-        });
+    quizResult.submit();
 }
 
 // Reset the quiz game to its starting state and redirect to quiz selection page
@@ -153,7 +128,6 @@ function resetQuizState() {
     totalQuizTime = 0;
     window.location.href = '/menu/quiz-selection';
 }
-
 
 document.addEventListener('DOMContentLoaded', () => {
   buttonHandler.setText('Next Question');

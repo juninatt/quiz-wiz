@@ -38,16 +38,13 @@ class QuizResult {
         this.player = playerName;
     }
 
-    /**
-     * Converts the quiz result data to a JSON string.
-     * Used to send data to the API.
+     /**
+     * Submits the quiz result to the server.
      */
-    toJSON() {
-        return {
-            quizId: this.quizId,
-            player: this.player,
-            score: this.score,
-            timeUsedSec: this.timeUsedSec
-        };
+    submit() {
+        const apiHandler = new RestClient();
+        return apiHandler.sendRequest('/leaderboard/save', 'POST', this)
+            .then(() => console.log('Quiz results submitted'))
+            .catch(error => console.error('Error saving the score:', error.message));
     }
 }

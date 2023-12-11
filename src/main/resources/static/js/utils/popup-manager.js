@@ -1,9 +1,22 @@
+
+/**
+ * PopupManager handles the creation and management of popups in the DOM.
+ */
 class PopupManager {
+
+    /**
+     * Constructs a new PopupManager instance and initializes a div element
+     * to serve as the background for the popup.
+     */
     constructor() {
         this.popupBackground = document.createElement('div');
         this.popupBackground.className = 'popup-background';
     }
 
+    /**
+     * Displays a popup with customizable content and an onClose callback.
+     * The popup includes a default layout and buttons for saving the score and closing the popup.
+     */
     showPopup(onClose) {
         // Create the popup content
         const popup = document.createElement('div');
@@ -16,10 +29,7 @@ class PopupManager {
             <button class="quiz-game-button" id="close-popup">Close</button>
         `;
 
-        // Append the popup to the popup background
         this.popupBackground.appendChild(popup);
-
-        // Append the popup background to the body
         document.body.appendChild(this.popupBackground);
 
         // Add event listeners to the buttons
@@ -27,13 +37,15 @@ class PopupManager {
         document.getElementById('close-popup').addEventListener('click', () => {
             this.closePopup();
             if (typeof onClose === 'function') {
-                onClose(); // Call the onClose callback if provided
+                onClose();
             }
         });
     }
 
+    /**
+     * Closes and removes the popup from the document.
+     */
     closePopup() {
-        // Remove the popup background from the body
         this.popupBackground.remove();
     }
 }
